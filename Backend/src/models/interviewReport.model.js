@@ -37,12 +37,12 @@ const mongoose = require('mongoose');
  */
 
 const technicalQuestionsSchema= new mongoose.Schema({
-    questions: {
-        type: STring,
+    question: {
+        type: String,
         required: [true, " Techincal questions is required"]
     },
     intention: {
-        type:STring,
+        type: String,
         required:[true, "Intention is required"]
     },
     answer:{
@@ -53,13 +53,13 @@ const technicalQuestionsSchema= new mongoose.Schema({
     _id: false
 })
 
-const BehaviouralQuestionsSchema= new mongoose.Schema({
-    questions: {
-        type: STring,
+const behaviouralQuestionsSchema= new mongoose.Schema({
+    question: {
+        type: String,
         required: [true, " Techincal questions is required"]
     },
     intention: {
-        type:STring,
+        type:String,
         required:[true, "Intention is required"]
     },
     answer:{
@@ -70,14 +70,18 @@ const BehaviouralQuestionsSchema= new mongoose.Schema({
     _id: false
 })
 
-const skilGapSchema = new mongoose.Schema({
+const skillGapSchema = new mongoose.Schema({
     skill: {
         type: String,
-        enum:["low","medium","high"],
-        required: [true,"Severity is required"]
+        required: true
+    },
+    severity: {
+        type: String,
+        enum: ["low","medium","high"],
+        required: true
     }
 },{
-    _id: false
+    _id:false
 })
 
 const preparationPlanSchema = new mongoose.Schema ({
@@ -86,7 +90,7 @@ const preparationPlanSchema = new mongoose.Schema ({
         required:[true, "day is required"]
     },
     focus: {
-        type: STring,
+        type: String,
         required: [true, "Focs is required"]
     },
     tasks: [{
@@ -113,9 +117,13 @@ const interviewReportSchema = new mongoose.Schema({
         max:100,
     },
     technicalQuestions: [ technicalQuestionsSchema],
-    behaviouralQuestions : [BehaviouralQuestionsSchema],
-    skillGap: [skilGapSchema],
-    preparationPlan : [ preparationPlanSchema]
+    behaviouralQuestions : [behaviouralQuestionsSchema],
+    skillGaps: [skillGapSchema],
+    preparationPlan : [ preparationPlanSchema],
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "users"
+    }
 },{
     timestamps: true,
 })
