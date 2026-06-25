@@ -1,0 +1,612 @@
+@use "sass:color";
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+
+// ---------- Tokens ----------
+$bg: #f5f6fb;
+$surface: #ffffff;
+$border: #e7e9f2;
+$border-strong: #d8dbe8;
+
+$ink: #111729;
+$ink-soft: #4b5566;
+$muted: #94a0b3;
+
+$navy: #1d2c6b;
+$navy-dark: #141f52;
+$blue: #2f5fe0;
+$blue-soft: #eaf0ff;
+$blue-soft-strong: rgba(47, 95, 224, 0.18);
+
+$success: #16a34a;
+$success-soft: #ecfdf3;
+$danger: #dc2626;
+$danger-soft: #fef2f2;
+
+$radius-sm: 8px;
+$radius-md: 14px;
+$radius-lg: 18px;
+
+$shadow-card: 0 1px 2px rgba(17, 23, 41, 0.04), 0 8px 24px rgba(17, 23, 41, 0.05);
+$shadow-raised: 0 10px 24px rgba(29, 44, 107, 0.22);
+
+$font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+@mixin focus-ring {
+  outline: none;
+  border-color: $blue;
+  box-shadow: 0 0 0 3px $blue-soft-strong;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.dashboard {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: $bg;
+  font-family: $font;
+  color: $ink;
+  -webkit-font-smoothing: antialiased;
+}
+
+// ===================== TOPBAR =====================
+
+.topbar {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  height: 72px;
+  padding: 0 40px;
+  background: $surface;
+  border-bottom: 1px solid $border;
+
+  @media (max-width: 860px) {
+    gap: 20px;
+    padding: 0 20px;
+  }
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: $navy;
+  flex-shrink: 0;
+}
+
+.logo-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: $radius-sm;
+  background: $navy;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+
+  @media (max-width: 860px) {
+    display: none;
+  }
+
+  a {
+    position: relative;
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: $ink-soft;
+    text-decoration: none;
+    padding-bottom: 24px;
+    transition: color 0.15s ease;
+
+    &:hover {
+      color: $ink;
+    }
+
+    &.active {
+      color: $navy;
+      font-weight: 600;
+
+      &::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 2px;
+        background: $blue;
+        border-radius: 2px;
+      }
+    }
+  }
+}
+
+.topbar-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.upgrade-btn {
+  border: none;
+  background: $navy;
+  color: #fff;
+  font-size: 0.86rem;
+  font-weight: 600;
+  padding: 9px 18px;
+  border-radius: $radius-sm;
+  cursor: pointer;
+  transition: background 0.15s ease;
+
+  &:hover {
+    background: $navy-dark;
+  }
+}
+
+.icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: $ink-soft;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+
+  svg {
+    width: 19px;
+    height: 19px;
+  }
+
+  &:hover {
+    background: $bg;
+    color: $ink;
+  }
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, $blue, $navy);
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+// ===================== MAIN =====================
+
+.home {
+  flex: 1;
+  width: min(1500px, 94%);
+  margin: 0 auto;
+  padding: 36px 0 48px;
+
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 400px;
+  gap: 24px;
+  align-items: stretch;
+
+  @media (max-width: 980px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+%card {
+  background: $surface;
+  border: 1px solid $border;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-card;
+}
+
+%field-base {
+  width: 100%;
+  background: #f9fafc;
+  border: 1px solid $border-strong;
+  border-radius: $radius-md;
+  padding: 18px;
+  font-family: $font;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: $ink;
+  resize: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+
+  &::placeholder {
+    color: $muted;
+  }
+
+  &:hover {
+    border-color: color.adjust($border-strong, $lightness: -8%);
+  }
+
+  &:focus {
+    @include focus-ring;
+    background: $surface;
+  }
+}
+
+// ----- Left: Job Description -----
+
+.jd-section {
+  @extend %card;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.section-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.section-icon {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: $radius-md;
+  background: $blue-soft;
+  color: $navy;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    width: 22px;
+    height: 22px;
+  }
+}
+
+.section-header h2 {
+  font-size: 1.32rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-bottom: 4px;
+}
+
+.section-header p {
+  font-size: 0.9rem;
+  color: $ink-soft;
+}
+
+.jd-section textarea {
+  @extend %field-base;
+  flex: 1;
+  min-height: 320px;
+  overflow-y: auto;
+}
+
+// ----- Right: Sidebar -----
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.panel {
+  @extend %card;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+.panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+
+  h3 {
+    font-size: 1rem;
+    font-weight: 700;
+  }
+}
+
+.tag {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+
+  &--required {
+    color: $blue;
+  }
+
+  &--optional {
+    color: $muted;
+    text-transform: none;
+    font-weight: 500;
+    letter-spacing: normal;
+  }
+}
+
+.panel-hint {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: $ink-soft;
+  margin-bottom: 12px;
+}
+
+// Upload box
+
+.upload-box {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-align: center;
+  padding: 30px 16px;
+  border: 1.5px dashed $border-strong;
+  border-radius: $radius-md;
+  background: #f9fafc;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+
+  &:hover,
+  &:focus-within {
+    border-color: $blue;
+    background: $blue-soft;
+
+    .upload-icon {
+      color: $blue;
+    }
+  }
+
+  &--dragging {
+    border-color: $blue;
+    background: $blue-soft;
+    border-style: solid;
+  }
+
+  &--filled {
+    border-style: solid;
+    border-color: $success;
+    background: $success-soft;
+
+    &:hover,
+    &:focus-within {
+      border-color: $success;
+      background: $success-soft;
+
+      .upload-icon {
+        color: #fff;
+      }
+    }
+  }
+
+  &--error {
+    border-color: $danger;
+    background: $danger-soft;
+  }
+
+  input[type="file"] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    overflow: hidden;
+  }
+}
+
+.upload-icon {
+  color: $ink-soft;
+  margin-bottom: 4px;
+
+  svg {
+    width: 30px;
+    height: 30px;
+  }
+
+  &--success {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: $success;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+  }
+}
+
+.upload-box span {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: $ink;
+}
+
+.upload-filename {
+  max-width: 280px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.upload-box small {
+  font-size: 0.78rem;
+  color: $muted;
+}
+
+.upload-remove {
+  border: none;
+  background: none;
+  color: $ink-soft;
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+  margin-top: 2px;
+
+  &:hover {
+    color: $danger;
+  }
+}
+
+.upload-error {
+  margin-top: 8px;
+  font-size: 0.78rem;
+  color: $danger;
+  text-align: center;
+}
+
+// Candidate context textarea
+
+.panel textarea {
+  @extend %field-base;
+  min-height: 150px;
+}
+
+.word-count {
+  align-self: flex-end;
+  margin-top: 8px;
+  font-size: 0.78rem;
+  color: $muted;
+}
+
+// Generate button
+
+.generate-btn {
+  border: none;
+  border-radius: $radius-md;
+  padding: 16px;
+  background: $navy;
+  color: #fff;
+  font-size: 0.98rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+
+  svg {
+    width: 19px;
+    height: 19px;
+  }
+
+  &:hover {
+    background: $navy-dark;
+    box-shadow: $shadow-raised;
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px $blue-soft-strong, $shadow-raised;
+  }
+}
+
+.generate-hint {
+  text-align: center;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: $muted;
+  margin-top: 4px;
+}
+
+// ===================== FOOTER =====================
+
+.site-footer {
+  flex-shrink: 0;
+  background: #eef0f8;
+  border-top: 1px solid $border;
+  padding: 26px 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+
+  @media (max-width: 860px) {
+    padding: 24px 20px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.footer-brand {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: $navy;
+}
+
+.footer-copy {
+  font-size: 0.82rem;
+  color: $muted;
+  margin-top: 2px;
+}
+
+.footer-links {
+  display: flex;
+  gap: 28px;
+
+  a {
+    font-size: 0.85rem;
+    color: $ink-soft;
+    text-decoration: none;
+    transition: color 0.15s ease;
+
+    &:hover {
+      color: $navy;
+    }
+  }
+
+  @media (max-width: 860px) {
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+}
+
+// ===================== SCROLLBAR =====================
+
+textarea::-webkit-scrollbar {
+  width: 8px;
+}
+
+textarea::-webkit-scrollbar-thumb {
+  background: $border-strong;
+  border-radius: 999px;
+}
+
+textarea::-webkit-scrollbar-track {
+  background: transparent;
+}
