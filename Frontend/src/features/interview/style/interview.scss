@@ -1,0 +1,1031 @@
+﻿@use "sass:color";
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+
+// ---------- Tokens ----------
+$bg: #f4f5f9;
+$surface: #ffffff;
+$surface-hover: #fafbfc;
+$surface-subtle: #f8f9fc;
+$border: #e8eaf0;
+$border-light: #eef0f5;
+$border-strong: #d5d8e3;
+
+$ink: #0f1420;
+$ink-soft: #4a5163;
+$ink-muted: #8b91a4;
+
+$navy: #1b2a5e;
+$navy-deep: #111b3d;
+$navy-surface: #f0f2fb;
+$blue: #3659e6;
+$blue-vivid: #4066f0;
+$blue-soft: #e8eeff;
+$blue-glow: rgba(54, 89, 230, 0.08);
+$blue-glow-strong: rgba(54, 89, 230, 0.16);
+
+$emerald: #0c9e78;
+$emerald-soft: #e6f7f2;
+$emerald-glow: rgba(12, 158, 120, 0.08);
+
+$amber: #e59f1f;
+$amber-soft: #fff8e8;
+$amber-glow: rgba(229, 159, 31, 0.10);
+
+$rose: #e54d5c;
+$rose-soft: #fef2f3;
+$rose-glow: rgba(229, 77, 92, 0.10);
+
+$radius-sm: 8px;
+$radius-md: 12px;
+$radius-lg: 16px;
+$radius-xl: 20px;
+
+$shadow-xs: 0 1px 2px rgba(15, 20, 32, 0.02);
+$shadow-sm: 0 1px 3px rgba(15, 20, 32, 0.03), 0 4px 12px rgba(15, 20, 32, 0.04);
+$shadow-md: 0 2px 6px rgba(15, 20, 32, 0.03), 0 8px 24px rgba(15, 20, 32, 0.06);
+$shadow-lg: 0 8px 30px rgba(27, 42, 94, 0.10);
+$shadow-glow: 0 8px 32px rgba(54, 89, 230, 0.18);
+
+$font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+@mixin focus-ring {
+  outline: none;
+  border-color: $blue;
+  box-shadow: 0 0 0 3px $blue-glow-strong;
+}
+
+@mixin glass {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px) saturate(140%);
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
+}
+
+// ===================== BASE =====================
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.interview {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: $bg;
+  font-family: $font;
+  color: $ink;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// ===================== TOPBAR =====================
+
+.topbar {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 36px;
+  height: 68px;
+  padding: 0 36px;
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  border-bottom: 1px solid $border-light;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+
+  @media (max-width: 1200px) {
+    display: none;
+  }
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: $navy;
+  flex-shrink: 0;
+  text-decoration: none;
+}
+
+.logo-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: $radius-sm;
+  background: linear-gradient(135deg, $navy 0%, $blue 100%);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 0.8rem;
+  letter-spacing: -0.02em;
+  box-shadow: 0 4px 12px rgba(54, 89, 230, 0.3);
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  @media (max-width: 1200px) {
+    display: none;
+  }
+
+  a {
+    position: relative;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: $ink-soft;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: $radius-sm;
+    transition: color 0.15s ease, background 0.15s ease;
+
+    &:hover {
+      color: $ink;
+      background: $surface-subtle;
+    }
+
+    &.active {
+      color: $navy;
+      font-weight: 600;
+      background: $navy-surface;
+
+      &::after {
+        display: none;
+      }
+    }
+  }
+}
+
+.topbar-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.upgrade-btn {
+  border: none;
+  background: linear-gradient(135deg, $navy 0%, $blue-vivid 100%);
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 9px 20px;
+  border-radius: $radius-sm;
+  cursor: pointer;
+  transition: opacity 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+  box-shadow: 0 4px 14px rgba(54, 89, 230, 0.3);
+
+  &:hover {
+    opacity: 0.92;
+    box-shadow: 0 6px 20px rgba(54, 89, 230, 0.38);
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+// ===================== LAYOUT =====================
+
+.main-layout {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 260px 1fr 340px;
+  gap: 24px;
+  max-width: 1480px;
+  margin: 0 auto;
+  padding: 32px 36px 48px;
+  width: 100%;
+
+  @media (max-width: 1300px) {
+    grid-template-columns: 1fr;
+    padding: 24px 20px;
+  }
+}
+
+// ===================== LEFT SIDEBAR =====================
+
+.left-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  @media (max-width: 1300px) {
+    display: none;
+  }
+}
+
+.sidebar-card {
+  @include glass;
+  border: 1px solid $border-light;
+  border-radius: $radius-lg;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  box-shadow: $shadow-sm;
+}
+
+.sidebar-card-title {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: $ink-muted;
+  padding: 0 12px;
+  margin-bottom: 4px;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 14px;
+  border-radius: $radius-md;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: $ink-soft;
+  text-decoration: none;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  transition: all 0.15s ease;
+  font-family: $font;
+
+  &:hover {
+    background: $surface-subtle;
+    color: $ink;
+  }
+
+  &.active {
+    background: $blue-soft;
+    color: $navy;
+    font-weight: 600;
+    box-shadow: inset 0 0 0 1px rgba(54, 89, 230, 0.06);
+  }
+
+  &-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    opacity: 0.75;
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  &.active &-icon {
+    opacity: 1;
+    color: $blue;
+  }
+}
+
+// ===================== CENTER CONTENT =====================
+
+.center-content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-width: 0;
+}
+
+// ---------- Match Score ----------
+
+.match-score-card {
+  background: linear-gradient(135deg, $navy-deep 0%, $navy 50%, $blue 100%);
+  border-radius: $radius-xl;
+  padding: 32px 36px;
+  color: #fff;
+  box-shadow: $shadow-lg, 0 12px 40px rgba(27, 42, 94, 0.24);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: -40%;
+    right: -20%;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.12) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: -30%;
+    left: -10%;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.06) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+}
+
+.match-score-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.match-score-title {
+  font-size: 0.88rem;
+  font-weight: 500;
+  opacity: 0.82;
+  letter-spacing: 0.01em;
+}
+
+.match-score-badge {
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(6px);
+  padding: 5px 14px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  letter-spacing: 0.01em;
+}
+
+.match-score-value {
+  font-size: 3.6rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  position: relative;
+  z-index: 1;
+}
+
+.match-score-subtitle {
+  font-size: 0.92rem;
+  font-weight: 500;
+  opacity: 0.75;
+  margin-top: 6px;
+  position: relative;
+  z-index: 1;
+  letter-spacing: -0.01em;
+}
+
+// ---------- Question Sections ----------
+
+.question-section {
+  background: $surface;
+  border: 1px solid $border-light;
+  border-radius: $radius-xl;
+  box-shadow: $shadow-md;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  transition: box-shadow 0.2s ease;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.section-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: $radius-md;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  &--tech {
+    background: $blue-soft;
+    color: $blue;
+    box-shadow: 0 4px 14px rgba(54, 89, 230, 0.12);
+  }
+
+  &--behavioral {
+    background: $emerald-soft;
+    color: $emerald;
+    box-shadow: 0 4px 14px rgba(12, 158, 120, 0.12);
+  }
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.section-header-text h2 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: $ink;
+}
+
+.section-header-text p {
+  font-size: 0.88rem;
+  color: $ink-soft;
+  margin-top: 3px;
+  font-weight: 450;
+}
+
+// ---------- Question List ----------
+
+.questions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+// ---------- Question Item (Accordion) ----------
+
+.question-item {
+  border: 1px solid $border-light;
+  border-radius: $radius-md;
+  overflow: hidden;
+  transition: all 0.18s ease;
+  background: $surface;
+
+  &:hover {
+    border-color: $border;
+    box-shadow: $shadow-xs;
+  }
+
+  &.expanded {
+    border-color: $border-strong;
+    box-shadow: $shadow-sm;
+    background: $surface;
+  }
+}
+
+.question-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 20px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  user-select: none;
+  background: transparent;
+
+  &:hover {
+    background: $surface-hover;
+  }
+
+  .question-item.expanded & {
+    background: $surface-subtle;
+  }
+}
+
+.question-number {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: $surface-subtle;
+  color: $ink-soft;
+  font-size: 0.8rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.18s ease;
+  border: 1px solid transparent;
+}
+
+.question-item.expanded .question-number {
+  background: linear-gradient(135deg, $blue, $blue-vivid);
+  color: #fff;
+  border-color: transparent;
+  box-shadow: 0 3px 10px rgba(54, 89, 230, 0.3);
+}
+
+.question-text {
+  flex: 1;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.5;
+  color: $ink;
+  letter-spacing: -0.01em;
+}
+
+.question-toggle {
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: $surface-subtle;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  color: $ink-soft;
+  border: 1px solid $border-light;
+
+  svg {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+.question-item.expanded .question-toggle {
+  transform: rotate(180deg);
+  background: $blue-soft;
+  color: $blue;
+  border-color: rgba(54, 89, 230, 0.15);
+  box-shadow: 0 2px 8px rgba(54, 89, 230, 0.12);
+}
+
+.question-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.question-item.expanded .question-body {
+  max-height: 500px;
+}
+
+.question-body-inner {
+  padding: 4px 20px 22px 64px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.question-intention {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: $blue;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  &::before {
+    content: "";
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: $blue;
+    opacity: 0.7;
+  }
+}
+
+.question-answer {
+  font-size: 0.92rem;
+  line-height: 1.75;
+  color: $ink-soft;
+  font-weight: 420;
+}
+
+// ---------- Roadmap ----------
+
+.roadmap {
+  background: $surface;
+  border: 1px solid $border-light;
+  border-radius: $radius-xl;
+  box-shadow: $shadow-md;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  transition: box-shadow 0.2s ease;
+}
+
+.roadmap-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.roadmap-header h2 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: $ink;
+}
+
+.roadmap-subtitle {
+  font-size: 0.88rem;
+  color: $ink-soft;
+  margin-top: 3px;
+  font-weight: 450;
+}
+
+.roadmap-timeline {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.roadmap-line {
+  position: absolute;
+  left: 21px;
+  top: 28px;
+  bottom: 28px;
+  width: 2px;
+  background: linear-gradient(to bottom, $border 0%, $border-light 100%);
+  border-radius: 2px;
+}
+
+.roadmap-day {
+  display: flex;
+  gap: 16px;
+  position: relative;
+  padding-bottom: 4px;
+
+  &:last-child {
+    padding-bottom: 0;
+  }
+}
+
+.roadmap-dot-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  width: 42px;
+  position: relative;
+  z-index: 2;
+}
+
+.roadmap-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  margin-top: 10px;
+  flex-shrink: 0;
+  background: $surface;
+  border: 2.5px solid $blue;
+  box-shadow: 0 0 0 4px $blue-glow, $shadow-xs;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.roadmap-content {
+  flex: 1;
+  background: linear-gradient(135deg, $surface 0%, $surface-subtle 100%);
+  border: 1px solid $border-light;
+  border-radius: $radius-md;
+  padding: 18px 22px;
+  margin-bottom: 16px;
+  transition: all 0.18s ease;
+
+  &:hover {
+    border-color: $border;
+    box-shadow: $shadow-sm;
+  }
+}
+
+.roadmap-day:last-child .roadmap-content {
+  margin-bottom: 0;
+}
+
+.roadmap-day-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.roadmap-focus {
+  font-size: 0.95rem;
+  font-weight: 650;
+  color: $ink;
+  letter-spacing: -0.01em;
+}
+
+.roadmap-day-badge {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: $ink-muted;
+  background: $surface;
+  border: 1px solid $border-light;
+  padding: 4px 12px;
+  border-radius: 999px;
+  letter-spacing: 0.01em;
+}
+
+.roadmap-tasks {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.roadmap-tasks li {
+  position: relative;
+  padding-left: 22px;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: $ink-soft;
+  font-weight: 420;
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: 4px;
+    top: 9px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: $border-strong;
+    transition: background 0.15s ease;
+  }
+}
+
+.roadmap-content:hover .roadmap-tasks li::before {
+  background: $blue;
+  opacity: 0.6;
+}
+
+// ===================== RIGHT SIDEBAR =====================
+
+.right-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  @media (max-width: 1300px) {
+    display: none;
+  }
+}
+
+.sidebar-card.skill-gaps-card {
+  @include glass;
+  border: 1px solid $border-light;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-md, 0 12px 40px rgba(15, 20, 32, 0.04);
+  padding: 24px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(16px) saturate(150%);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+}
+
+.skill-gaps-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.sidebar-card h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: $ink;
+  letter-spacing: -0.02em;
+}
+
+.skill-gaps-count {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: $navy;
+  background: $navy-surface;
+  padding: 4px 12px;
+  border-radius: 999px;
+  letter-spacing: 0.01em;
+  border: 1px solid $border-light;
+}
+
+.sidebar-card .card-subtitle {
+  font-size: 0.84rem;
+  color: $ink-soft;
+  margin-bottom: 22px;
+  line-height: 1.5;
+  font-weight: 420;
+  padding-right: 4px;
+}
+
+.skill-gap-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.skill-gap-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 22px;
+  border-radius: $radius-md;
+  border: 1px solid $border-light;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: all 0.18s ease;
+  position: relative;
+  min-height: 72px;
+  box-shadow: $shadow-xs;
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 14px;
+    bottom: 14px;
+    width: 4px;
+    border-radius: 0 4px 4px 0;
+    transition: all 0.18s ease;
+  }
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.95);
+    border-color: $border;
+    box-shadow: $shadow-sm;
+    transform: translateY(-2px);
+  }
+
+  &--high {
+    &::before {
+      background: $rose;
+      box-shadow: 0 0 12px rgba(229, 77, 92, 0.25);
+    }
+  }
+
+  &--medium {
+    &::before {
+      background: $amber;
+      box-shadow: 0 0 12px rgba(229, 159, 31, 0.25);
+    }
+  }
+
+  &--low {
+    &::before {
+      background: $emerald;
+      box-shadow: 0 0 12px rgba(12, 158, 120, 0.25);
+    }
+  }
+}
+
+.skill-gap-content {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+  flex: 1;
+}
+
+.skill-gap-indicator {
+  width: 32px;
+  height: 32px;
+  border-radius: $radius-sm;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.18s ease;
+
+  .skill-gap-card:hover & {
+    transform: scale(1.08);
+  }
+
+  svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  &--high {
+    background: $rose-soft;
+    color: $rose;
+    border: 1px solid rgba(229, 77, 92, 0.08);
+  }
+
+  &--medium {
+    background: $amber-soft;
+    color: $amber;
+    border: 1px solid rgba(229, 159, 31, 0.08);
+  }
+
+  &--low {
+    background: $emerald-soft;
+    color: $emerald;
+    border: 1px solid rgba(12, 158, 120, 0.08);
+  }
+}
+
+.skill-gap-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: $ink;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: -0.01em;
+}
+
+.skill-gap-severity {
+  font-size: 0.7rem;
+  font-weight: 650;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  padding: 6px 14px;
+  border-radius: 999px;
+  flex-shrink: 0;
+  white-space: nowrap;
+  transition: all 0.18s ease;
+  border: 1px solid transparent;
+
+  .skill-gap-card:hover & {
+    transform: translateY(-1px);
+  }
+
+  &--high {
+    background: $rose-soft;
+    color: $rose;
+    border-color: rgba(229, 77, 92, 0.12);
+  }
+
+  &--medium {
+    background: $amber-soft;
+    color: $amber;
+    border-color: rgba(229, 159, 31, 0.12);
+  }
+
+  &--low {
+    background: $emerald-soft;
+    color: $emerald;
+    border-color: rgba(12, 158, 120, 0.12);
+  }
+}
+
+// ===================== SCROLLBAR =====================
+
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: $border-strong;
+  border-radius: 999px;
+
+  &:hover {
+    background: $ink-muted;
+  }
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+// ===================== ANIMATIONS =====================
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.question-section,
+.roadmap,
+.match-score-card {
+  animation: fadeInUp 0.4s ease forwards;
+}
+
+.question-section:nth-child(2) {
+  animation-delay: 0.05s;
+}
+
+.roadmap {
+  animation-delay: 0.1s;
+}
+
+// ===================== SELECTION =====================
+
+::selection {
+  background: $blue-soft;
+  color: $navy;
+}
