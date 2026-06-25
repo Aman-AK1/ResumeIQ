@@ -1,9 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import "../style/home.scss";
 import { useInterview } from "../hooks/useInterview";
-import { useRef } from "react";
-import { useNavigate } from "react-router";
-
+import { Link, useNavigate } from "react-router";
 
 const MAX_WORDS = 500;
 // Rough char cap to keep people near the word limit without server-side validation.
@@ -20,49 +18,65 @@ const formatBytes = (bytes) => {
     return `${value.toFixed(i === 0 ? 0 : 1)} ${units[i]}`;
 };
 
+// NOTE: I don't have the shape useInterview() returns for `reports`, so these
+// helpers guess at field names and fall back gracefully instead of crashing.
+// `_id` and `jobDescription` match the payload you already send to
+// generateReport, so those are likely right — `createdAt` / score field names
+// are assumptions. Adjust the ?? fallbacks below if your API uses different keys.
+
+const getReportTitle = (jobDescription) => {
+    if (!jobDescription) return "Untitled Role";
+    const firstLine = jobDescription.split("\n")[0].trim();
+    if (!firstLine) return "Untitled Role";
+    return firstLine.length > 60 ? `${firstLine.slice(0, 57)}...` : firstLine;
+};
+
+const formatReportDate = (value) => {
+    if (!value) return "—";
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return "—";
+    return date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+};
+
+const getScoreTier = (score) => {
+    if (score >= 80) return "high";
+    if (score >= 50) return "medium";
+    return "low";
+};
+
 const Home = () => {
 
-    const { loading, generateReport } = useInterview()
+    const { loading, generateReport, reports, deleteReport } = useInterview()
     const [jobDescription, setJobDescription] = useState("")
     const [selfDescription, setSelfDescription] = useState("")
     const resumeInputRef = useRef()
     const navigate = useNavigate()
 
-//     const handleGenerateReport = async () => {
-//         const resumeFile = resumeInputRef.current?.files?.[0];
-
-// console.log("resumeInputRef.current:", resumeInputRef.current);
-// console.log("resumeFile:", resumeFile);
-//         // const resumeFile = resumeInputRef.current.files[0]
-//         const data = await generateReport({ jobDescription, selfDescription, resumeFile })
-//         navigate(`/interview/${data._id}`)
-//     }
-
-const handleGenerateReport = async () => {
-    if (!resumeFile) {
-        alert("Please upload a resume.");
-        return;
-    }
-
-    const data = await generateReport({
-        jobDescription,
-        selfDescription,
-        resumeFile,
-    });
-
-    if (data) {
-        navigate(`/interview/${data._id}`);
-    }
-}
-
     const [contextText, setContextText] = useState("");
     const [resumeFile, setResumeFile] = useState(null);
     const [resumeError, setResumeError] = useState("");
     const [isDragging, setIsDragging] = useState(false);
-    const fileInputRef = useRef(null);
+    const [deleteReportId, setDeleteReportId] = useState(null);
 
     const wordCount =
         contextText.trim() === "" ? 0 : contextText.trim().split(/\s+/).length;
+
+    const handleGenerateReport = async () => {
+        if (!resumeFile) {
+            alert("Please upload a resume.");
+            return;
+        }
+
+        const data = await generateReport({
+            jobDescription,
+            selfDescription,
+            resumeFile,
+        });
+
+        if (data) {
+            navigate(`/interview/${data._id}`);
+        }
+    }
 
     const acceptFile = (file) => {
         if (!file) return;
@@ -97,12 +111,26 @@ const handleGenerateReport = async () => {
         acceptFile(e.dataTransfer.files && e.dataTransfer.files[0]);
     };
 
+
+
+    const handleDeleteReport = async (id) => {
+    try {
+        await deleteReport(id);
+    } catch (err) {
+        console.error(err);
+    }
+};
+
     const handleRemoveResume = (e) => {
         e.preventDefault(); // stop the label from reopening the file picker
         setResumeFile(null);
         setResumeError("");
-        if (fileInputRef.current) fileInputRef.current.value = "";
+        if (resumeInputRef.current) resumeInputRef.current.value = "";
     };
+
+    const [showAllReports, setShowAllReports] = useState(false);
+    const allReports = reports || [];
+    const visibleReports = showAllReports ? allReports : allReports.slice(0, 3);
 
     if (loading) {
 
@@ -250,14 +278,14 @@ const handleGenerateReport = async () => {
                         </p>
 
                         <textarea
-    placeholder="Tell us about your skills..."
-    value={contextText}
-    maxLength={MAX_CHARS}
-    onChange={(e) => {
-        setContextText(e.target.value);
-        setSelfDescription(e.target.value);
-    }}
-/>
+                            placeholder="Tell us about your skills..."
+                            value={contextText}
+                            maxLength={MAX_CHARS}
+                            onChange={(e) => {
+                                setContextText(e.target.value);
+                                setSelfDescription(e.target.value);
+                            }}
+                        />
 
                         <div className="word-count">
                             {wordCount} / {MAX_WORDS} words
@@ -281,6 +309,134 @@ const handleGenerateReport = async () => {
                 </aside>
 
             </main>
+            <>
+            
+    
+            <div className="recent-interview-reports">
+                <div className="reports-header">
+                    <h2>Recent Interview Reports</h2>
+                    {allReports.length > 3 && (
+                        <button
+                            type="button"
+                            className="view-all-link"
+                            onClick={() => setShowAllReports((prev) => !prev)}
+                        >
+                            {showAllReports ? "Show less" : "View all"}
+                        </button>
+                    )}
+                </div>
+
+                {visibleReports.length === 0 ? (
+                    <p className="reports-empty">
+                        No reports yet — generate your first match report above to see it here.
+                    </p>
+                ) : (
+                    <div className="reports-grid">
+                        {visibleReports.map((report) => {
+                            const score = report.score ?? report.matchScore ?? 0;
+                            const tier = getScoreTier(score);
+
+                            return (
+                                <article key={report._id} className="report-card">
+                                    <div className="report-card-head">
+
+                                        <div className="report-icon">
+                                            <svg
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                strokeWidth="1.8"
+                                            >
+                                                <path
+                                                    d="M7 3h7l4 4v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"
+                                                    strokeLinejoin="round"
+                                                />
+                                                <path
+                                                    d="M14 3v4h4M9 13.5l1.8 1.8L15 11"
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                />
+                                            </svg>
+                                        </div>
+
+                                        <div className="report-actions">
+
+                                            <span className={`score-badge score-badge--${tier}`}>
+                                                {score}% Match
+                                            </span>
+
+                                            <button
+                                                className="delete-report-btn"
+                                                onClick={() => setDeleteReportId(report._id)}
+                                            >
+                                                <svg
+                                                    viewBox="0 0 24 24"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    strokeWidth="2"
+                                                >
+                                                    <path d="M3 6h18" />
+                                                    <path d="M8 6V4h8v2" />
+                                                    <path d="M19 6l-1 14H6L5 6" />
+                                                    <path d="M10 11v6" />
+                                                    <path d="M14 11v6" />
+                                                </svg>
+                                            </button>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div className="report-card-body">
+                                        <h3>{report.jobTitle || getReportTitle(report.jobDescription)}</h3>
+                                    </div>
+
+                                    <div className="report-card-footer">
+                                        <span className="report-date">{formatReportDate(report.createdAt)}</span>
+                                        <Link to={`/interview/${report._id}`} className="report-link">View Report →</Link>
+                                    </div>
+                                </article>
+                            );
+                        })}
+                    </div>
+                )}
+            </div>
+             {deleteReportId && (
+            <div className="delete-modal-backdrop">
+                <div className="delete-modal">
+
+                    <h3>Delete Report?</h3>
+
+                    <p>
+                        Are you sure you want to delete this interview report?
+                        This action cannot be undone.
+                    </p>
+
+                    <div className="delete-modal-actions">
+
+                        <button
+                            className="cancel-btn"
+                            onClick={() => setDeleteReportId(null)}
+                        >
+                            Cancel
+                        </button>
+
+                        <button
+                            className="confirm-delete-btn"
+                            onClick={() => {
+                                handleDeleteReport(deleteReportId);
+                                setDeleteReportId(null);
+                            }}
+                        >
+                            Delete
+                        </button>
+
+                    </div>
+
+                </div>
+            </div>
+        )}
+            </>
 
             <footer className="site-footer">
                 <div className="footer-left">

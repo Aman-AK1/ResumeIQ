@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import "../style/interview.scss";
 import { useInterview } from "../hooks/useInterview";
-
+import { useNavigate, useParams } from "react-router";
 
 const ChevronIcon = () => (
   <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -47,11 +47,27 @@ const Interview = () => {
   const [expandedTech, setExpandedTech] = useState(0);
   const [expandedBehavioral, setExpandedBehavioral] = useState(0);
   
-  const {report} = useInterview()
+  const {report,getReportById, loading} = useInterview()
+
+  const {interviewId} = useParams()
+
+useEffect(()=> {
+  if(interviewId){
+    getReportById(interviewId)
+  }
+},[interviewId])
 
   const toggleExpand = (setter, index) => {
     setter((prev) => (prev === index ? null : index));
   };
+
+  if(loading || !report){
+   return(
+    <main>
+      <h1> laoding your interview report</h1>
+    </main>
+   )
+  }
 
   return (
     <div className="interview">
@@ -62,7 +78,7 @@ const Interview = () => {
           <span>InterviewAI</span>
         </div>
         <nav className="nav-links">
-          <a href="#">Dashboard</a>
+          <a href="/">Dashboard</a>
           <a href="#" className="active">Interview</a>
           <a href="#">Resume</a>
           <a href="#">Settings</a>

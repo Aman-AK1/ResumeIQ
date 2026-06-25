@@ -70,7 +70,7 @@ const interviewReportJsonSchema = {
             }
         },
 
-        title: {
+        jobTitle: {
             type: "string"
         }
     },
@@ -81,7 +81,7 @@ const interviewReportJsonSchema = {
         "behaviouralQuestions",
         "skillGaps",
         "preparationPlan",
-        "title"
+        "jobTitle"
     ]
 };
 
@@ -119,7 +119,7 @@ const interviewReportSchema = z.object({
         })
     ).length(7),
 
-    title: z.string()
+    jobTitle: z.string()
 });
 
 async function generateInterviewReport({
@@ -132,6 +132,8 @@ async function generateInterviewReport({
 Generate a complete interview preparation report.
 
 Requirements:
+- Determine the most suitable job title for the candidate based on the resume and job description.
+- Return it as "jobTitle".
 - Generate exactly 5 technical questions.
 - Generate exactly 3 behavioral questions.
 - Generate at least 3 skill gaps.
@@ -158,12 +160,11 @@ ${JobDescription}
             responseSchema: interviewReportJsonSchema
         }
     });
-
     const report = JSON.parse(response.text);
+    
 
     const validatedReport =
         interviewReportSchema.parse(report);
-
     
 
     return validatedReport;

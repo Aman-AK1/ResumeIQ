@@ -1,10 +1,11 @@
-import {getAllInterviewReports, generateInterviewReport, getInterviewReportById} from "../services/interview.api"
-import { useContext } from "react"
+import {getAllInterviewReports, generateInterviewReport, getInterviewReportById, deleteInterviewReport} from "../services/interview.api"
+import { useContext, useEffect } from "react"
 import { InterviewContext } from "../interview.context"
+import { useParams } from "react-router"
 
 export const useInterview = () => {
     const context = useContext(InterviewContext)
-
+    const {interviewId}=useParams()
     if(!context){
         throw new Error("useInterview must be used within n InterviewProvider")
 }
@@ -59,7 +60,37 @@ const getReports = async () => {
     return response.interviewReports
 }
 
-return {loading, report , reports, generateReport, getReportById, getReports}
+const deleteReport = async (interviewId) => {
+    
+
+    let response = null;
+
+    try {
+
+        response = await deleteInterviewReport(interviewId);
+
+        setReports((prev) =>
+            prev.filter((report) => report._id !== interviewId)
+        );
+
+    } catch (err) {
+
+        console.log(err);
+
+    }
+
+    return response;
+}
+
+useEffect(() => {
+    if (interviewId) {
+        getReportById(interviewId);
+    } else {
+        getReports();
+    }
+}, [interviewId]);
+
+return {loading, report , reports, generateReport, getReportById, getReports, deleteReport}
 
 }
 

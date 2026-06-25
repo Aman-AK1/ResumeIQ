@@ -39,3 +39,12 @@ export const getAllInterviewReports = async () =>{
     const response = await api.get("/api/interview")
     return response.data
 }
+
+/**
+ * @description Delete interview report by ID
+ */
+export const deleteInterviewReport = async (interviewId) => {
+    const response = await api.delete(`/api/interview/${interviewId}`);
+
+    return response.data;
+};

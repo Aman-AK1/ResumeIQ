@@ -8,8 +8,7 @@ const interviewReportModel = require("../models/interviewReport.model")
 
 async function generateInterviewReportController(req, res) {
 
-    console.log("req.file:", req.file);
-console.log("req.body:", req.body);
+ 
     const resumeContent = await (new pdfParse.PDFParse(Uint8Array.from(req.file.buffer))).getText()
     const { selfDescription, jobDescription} = req.body
 
@@ -19,6 +18,8 @@ console.log("req.body:", req.body);
         jobDescription
     })
 
+    
+
     const interviewReport = await interviewReportModel.create({
         user : req.user.id,
         resume: resumeContent.text,
@@ -27,11 +28,13 @@ console.log("req.body:", req.body);
         ...interviewReportByAi
     })
 
+    
+
     res.status(201).json({
         message: "Interview report generated successfully",
         interviewReport
     })
-
+   
 }
 
 /**
@@ -67,5 +70,34 @@ async function getAllInterviewReport(req,res){
     })
 }
 
+/**
+ * @description user can delete the file which is no longer needed
+ */
+const deleteInterviewReport = async (req, res) => {
+    const { interviewId } = req.params;
 
-module.exports = {generateInterviewReportController, getInterviewReportByIdController, getAllInterviewReport}
+    console.log("Interview ID:", interviewId);
+    console.log("Logged in user:", req.user);
+
+    //const report = await interviewReportModel.findById(interviewId);
+
+    
+
+    const report = await interviewReportModel.findOneAndDelete({
+        _id: interviewId,
+        user: req.user.id
+    });
+
+    if (!report) {
+        return res.status(404).json({
+            message: "Interview report not found"
+        });
+    }
+
+    res.status(200).json({
+        message: "Interview report deleted successfully"
+    });
+};
+
+
+module.exports = {generateInterviewReportController, getInterviewReportByIdController, getAllInterviewReport, deleteInterviewReport}
