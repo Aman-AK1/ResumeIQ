@@ -1,9 +1,8 @@
-import React,{ useState } from "react";
+import React, { useState } from "react";
 import "../style/home.scss";
-
-
-
-import { useRef} from "react";
+import { useInterview } from "../hooks/useInterview";
+import { useRef } from "react";
+import { useNavigate } from "react-router";
 
 
 const MAX_WORDS = 500;
@@ -22,6 +21,40 @@ const formatBytes = (bytes) => {
 };
 
 const Home = () => {
+
+    const { loading, generateReport } = useInterview()
+    const [jobDescription, setJobDescription] = useState("")
+    const [selfDescription, setSelfDescription] = useState("")
+    const resumeInputRef = useRef()
+    const navigate = useNavigate()
+
+//     const handleGenerateReport = async () => {
+//         const resumeFile = resumeInputRef.current?.files?.[0];
+
+// console.log("resumeInputRef.current:", resumeInputRef.current);
+// console.log("resumeFile:", resumeFile);
+//         // const resumeFile = resumeInputRef.current.files[0]
+//         const data = await generateReport({ jobDescription, selfDescription, resumeFile })
+//         navigate(`/interview/${data._id}`)
+//     }
+
+const handleGenerateReport = async () => {
+    if (!resumeFile) {
+        alert("Please upload a resume.");
+        return;
+    }
+
+    const data = await generateReport({
+        jobDescription,
+        selfDescription,
+        resumeFile,
+    });
+
+    if (data) {
+        navigate(`/interview/${data._id}`);
+    }
+}
+
     const [contextText, setContextText] = useState("");
     const [resumeFile, setResumeFile] = useState(null);
     const [resumeError, setResumeError] = useState("");
@@ -70,6 +103,16 @@ const Home = () => {
         setResumeError("");
         if (fileInputRef.current) fileInputRef.current.value = "";
     };
+
+    if (loading) {
+
+        return (
+            <main className="loading-screen">
+                <h1>Loading your report..</h1>
+            </main>
+        )
+
+    }
 
     return (
         <div className="dashboard">
@@ -128,6 +171,7 @@ const Home = () => {
                     </div>
 
                     <textarea
+                        onChange={(e) => { setJobDescription(e.target.value) }}
                         placeholder="Paste the job description here..."
                     />
                 </section>
@@ -187,7 +231,7 @@ const Home = () => {
                                 type="file"
                                 id="resume"
                                 accept=".pdf,.docx"
-                                ref={fileInputRef}
+                                ref={resumeInputRef}
                                 onChange={handleFileInputChange}
                             />
                         </label>
@@ -206,18 +250,23 @@ const Home = () => {
                         </p>
 
                         <textarea
-                            placeholder="Tell us about your skills, projects and experience..."
-                            value={contextText}
-                            maxLength={MAX_CHARS}
-                            onChange={(e) => setContextText(e.target.value)}
-                        />
+    placeholder="Tell us about your skills..."
+    value={contextText}
+    maxLength={MAX_CHARS}
+    onChange={(e) => {
+        setContextText(e.target.value);
+        setSelfDescription(e.target.value);
+    }}
+/>
 
                         <div className="word-count">
                             {wordCount} / {MAX_WORDS} words
                         </div>
                     </div>
 
-                    <button className="generate-btn" type="button">
+                    <button
+                        onClick={handleGenerateReport}
+                        className="generate-btn" type="button">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
                             <path d="M4 19V5m0 14h16M8 19v-6m4 6V9m4 10v-4" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>

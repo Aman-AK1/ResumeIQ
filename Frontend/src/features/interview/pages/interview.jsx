@@ -1,95 +1,7 @@
 import { useState } from "react";
 import "../style/interview.scss";
+import { useInterview } from "../hooks/useInterview";
 
-const mockData = {
-  matchScore: 78,
-  technicalQuestions: [
-    {
-      question: "Can you explain the difference between synchronous and asynchronous programming in the context of your primary programming language?",
-      intention: "Assess core knowledge of concurrency models.",
-      answer: "Synchronous programming executes tasks sequentially, blocking the main thread, while asynchronous programming allows long-running tasks to execute in the background without blocking the execution flow.",
-    },
-    {
-      question: "Describe the architectural patterns you have used for building scalable applications.",
-      intention: "Evaluate system design capability and understanding of scalability.",
-      answer: "I have experience implementing microservices architectures, utilizing message queues for decoupling and load balancers to distribute traffic efficiently.",
-    },
-    {
-      question: "How do you approach database schema design and optimization?",
-      intention: "Gauge experience with data management and performance tuning.",
-      answer: "I focus on normalization, appropriate indexing strategies for frequently queried fields, and denormalization only when performance bottlenecks are identified through query analysis.",
-    },
-    {
-      question: "Explain how you handle security vulnerabilities in an application development lifecycle.",
-      intention: "Verify knowledge of secure coding practices.",
-      answer: "I prioritize input validation, secure authentication tokens, and regular dependency scanning to patch known vulnerabilities as early as possible.",
-    },
-    {
-      question: "What is your approach to unit testing and test-driven development?",
-      intention: "Check commitment to code quality and reliability.",
-      answer: "I aim for high test coverage, using mocking frameworks to isolate components and focusing on edge-case testing to ensure robustness.",
-    },
-  ],
-  behaviouralQuestions: [
-    {
-      question: "Describe a situation where you had a significant technical disagreement with a teammate. How did you resolve it?",
-      intention: "Evaluate conflict resolution and teamwork skills.",
-      answer: "I focus on data-driven discussions, setting aside personal biases to evaluate solutions based on project requirements and long-term maintainability.",
-    },
-    {
-      question: "Tell me about a time you missed a deadline. How did you handle it?",
-      intention: "Assess accountability and crisis management.",
-      answer: "I prioritize early communication with stakeholders, provide a revised timeline, and implement processes to prevent future recurrence.",
-    },
-    {
-      question: "How do you keep your technical skills current with changing technology trends?",
-      intention: "Evaluate professional development and initiative.",
-      answer: "I dedicate time for weekly technical reading, explore new frameworks through pet projects, and participate in industry conferences.",
-    },
-  ],
-  skillGaps: [
-    { skill: "Cloud Infrastructure (AWS/Azure)", severity: "high" },
-    { skill: "System Design for High-Traffic Applications", severity: "high" },
-    { skill: "DevOps Pipelines and CI/CD Automation", severity: "medium" },
-  ],
-  preparationPlan: [
-    {
-      day: 1,
-      focus: "Core Language Mastery",
-      tasks: ["Review documentation for primary language features", "Solve 3 medium-level coding problems on LeetCode", "Refactor existing code to utilize newer language standards"],
-    },
-    {
-      day: 2,
-      focus: "System Design Foundations",
-      tasks: ["Study load balancing techniques", "Watch videos on database sharding and partitioning", "Design a high-level architecture for a URL shortener"],
-    },
-    {
-      day: 3,
-      focus: "Database Optimization",
-      tasks: ["Practice complex SQL join and aggregation queries", "Research NoSQL vs SQL trade-offs", "Review indexing strategies for performance"],
-    },
-    {
-      day: 4,
-      focus: "Cloud and Infrastructure",
-      tasks: ["Review basic AWS service roles (EC2, S3, RDS)", "Read about containerization basics with Docker", "Create a simple deployment diagram"],
-    },
-    {
-      day: 5,
-      focus: "Behavioural Preparation",
-      tasks: ["Prepare 3 STAR-method anecdotes", "Draft responses to common leadership questions", "Practice speaking clearly and succinctly"],
-    },
-    {
-      day: 6,
-      focus: "Mock Interviews",
-      tasks: ["Perform a mock technical interview with a peer", "Record and listen to responses to identify filler words", "Review feedback to adjust answer structures"],
-    },
-    {
-      day: 7,
-      focus: "Review and Rest",
-      tasks: ["Review summary notes of all covered topics", "Prepare questions for the interviewer", "Ensure full rest and mental preparation"],
-    },
-  ],
-};
 
 const ChevronIcon = () => (
   <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -134,7 +46,8 @@ const Interview = () => {
   const [activeSection, setActiveSection] = useState("technical");
   const [expandedTech, setExpandedTech] = useState(0);
   const [expandedBehavioral, setExpandedBehavioral] = useState(0);
-  const data = mockData;
+  
+  const {report} = useInterview()
 
   const toggleExpand = (setter, index) => {
     setter((prev) => (prev === index ? null : index));
@@ -189,7 +102,7 @@ const Interview = () => {
                   <span className="match-score-title">Interview Match Score</span>
                   <span className="match-score-badge">Generated Report</span>
                 </div>
-                <div className="match-score-value">{data.matchScore}%</div>
+                <div className="match-score-value">{report.matchScore}%</div>
                 <div className="match-score-subtitle">Based on your resume vs job description alignment</div>
               </div>
 
@@ -205,7 +118,7 @@ const Interview = () => {
                   </div>
                 </div>
                 <div className="questions-list">
-                  {data.technicalQuestions.map((q, idx) => (
+                  {report.technicalQuestions.map((q, idx) => (
                     <div key={idx} className={`question-item ${expandedTech === idx ? "expanded" : ""}`}>
                       <div className="question-header" onClick={() => toggleExpand(setExpandedTech, idx)}>
                         <span className="question-number">{idx + 1}</span>
@@ -237,7 +150,7 @@ const Interview = () => {
                 </div>
               </div>
               <div className="questions-list">
-                {data.behaviouralQuestions.map((q, idx) => (
+                {report.behaviouralQuestions.map((q, idx) => (
                   <div key={idx} className={`question-item ${expandedBehavioral === idx ? "expanded" : ""}`}>
                     <div className="question-header" onClick={() => toggleExpand(setExpandedBehavioral, idx)}>
                       <span className="question-number">{idx + 1}</span>
@@ -269,7 +182,7 @@ const Interview = () => {
               </div>
               <div className="roadmap-timeline">
                 <div className="roadmap-line" />
-                {data.preparationPlan.map((item) => (
+                {report.preparationPlan.map((item) => (
                   <div key={item.day} className="roadmap-day">
                     <div className="roadmap-dot-wrapper">
                       <div className="roadmap-dot" />
@@ -297,11 +210,11 @@ const Interview = () => {
           <div className="sidebar-card skill-gaps-card">
             <div className="skill-gaps-header">
               <h3>Skill Gaps</h3>
-              <span className="skill-gaps-count">{data.skillGaps.length}</span>
+              <span className="skill-gaps-count">{report.skillGaps.length}</span>
             </div>
             <p className="card-subtitle">Areas identified for improvement before your interview</p>
             <div className="skill-gap-list">
-              {data.skillGaps.map((gap, idx) => (
+              {report.skillGaps.map((gap, idx) => (
                 <div key={idx} className={`skill-gap-card skill-gap-card--${gap.severity}`}>
                   <div className="skill-gap-content">
                     <span className={`skill-gap-indicator skill-gap-indicator--${gap.severity}`}>
