@@ -932,6 +932,8 @@ $font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   }
 }
 
+
+
 .skill-gap-name {
   font-size: 0.9rem;
   font-weight: 600;
@@ -1028,4 +1030,24 @@ $font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 ::selection {
   background: $blue-soft;
   color: $navy;
+}
+
+
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: $bg;
+  font-family: $font;
+  color: $ink;
+  -webkit-font-smoothing: antialiased;
+
+  // Fallback styling for the bare "Loading..." state both pages render
+  // before the form mounts.
+  > h1 {
+    margin: auto;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: $ink-soft;
+  }
 }

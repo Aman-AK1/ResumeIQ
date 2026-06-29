@@ -61,11 +61,17 @@ useEffect(()=> {
     setter((prev) => (prev === index ? null : index));
   };
 
-  
+  if(loading || !report){
+   return(
+    <main>
+      <h1> laoding your interview report</h1>
+    </main>
+   )
+  }
 
-   if (loading || !report) {
-        return (<main className="auth-page"><h1>Loading...</h1></main>)
-    }
+  //  if (loading || !report) {
+  //       return (<main className="auth-page"><h1>Loading...</h1></main>)
+  //   }
 
   return (
     <div className="interview">

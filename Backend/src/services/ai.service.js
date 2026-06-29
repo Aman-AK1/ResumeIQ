@@ -122,6 +122,54 @@ const interviewReportSchema = z.object({
     jobTitle: z.string()
 });
 
+// async function generateInterviewReport({
+//     Resume,
+//     SelfDescription,
+//     JobDescription
+// }) {
+
+//     const prompt = `
+// Generate a complete interview preparation report.
+
+// Requirements:
+// - Determine the most suitable job title for the candidate based on the resume and job description.
+// - Return it as "jobTitle".
+// - Generate exactly 5 technical questions.
+// - Generate exactly 3 behavioral questions.
+// - Generate at least 3 skill gaps.
+// - Generate a complete 7-day preparation plan.
+// - Each day must contain at least 3 tasks.
+// - Return ONLY valid JSON.
+// - Follow the schema exactly.
+
+// Resume:
+// ${Resume}
+
+// Self Description:
+// ${SelfDescription}
+
+// Job Description:
+// ${JobDescription}
+// `;
+
+//     const response = await ai.models.generateContent({
+//         model: "gemini-3-flash-preview",
+//         contents: prompt,
+//         config: {
+//             responseMimeType: "application/json",
+//             responseSchema: interviewReportJsonSchema
+//         }
+//     });
+//     const report = JSON.parse(response.text);
+    
+
+//     const validatedReport =
+//         interviewReportSchema.parse(report);
+    
+
+//     return validatedReport;
+// }
+
 async function generateInterviewReport({
     Resume,
     SelfDescription,
@@ -152,22 +200,69 @@ Job Description:
 ${JobDescription}
 `;
 
-    const response = await ai.models.generateContent({
-        model: "gemini-3.1-flash-lite",
-        contents: prompt,
-        config: {
-            responseMimeType: "application/json",
-            responseSchema: interviewReportJsonSchema
+    const MODELS = [
+        "gemini-3-flash-preview",
+        "gemini-2.5-flash",
+        "gemini-3.1-flash-lite"
+    ];
+
+    let lastError;
+
+    for (const model of MODELS) {
+        try {
+            console.log(`Trying model: ${model}`);
+
+            const response = await ai.models.generateContent({
+                model,
+                contents: prompt,
+                config: {
+                    responseMimeType: "application/json",
+                    responseSchema: interviewReportJsonSchema
+                }
+            });
+
+            console.log(`Success with model: ${model}`);
+
+            const report = JSON.parse(response.text);
+
+            const validatedReport = interviewReportSchema.parse(report);
+
+            return validatedReport;
+
+        } catch (err) {
+
+            console.error(`Model ${model} failed.`);
+            console.error(err.message);
+
+            lastError = err;
+
+            const status =
+                err?.status ||
+                err?.error?.code ||
+                err?.cause?.status;
+
+            const isTemporaryError =
+                status === 503 ||
+                status === 429 ||
+                err.message?.includes("fetch failed") ||
+                err.message?.includes("ECONNRESET") ||
+                err.message?.includes("ETIMEDOUT");
+
+            if (isTemporaryError) {
+                console.log("Temporary error. Trying next model...\n");
+
+                // wait 1 second before trying next model
+                await new Promise(resolve => setTimeout(resolve, 1000));
+
+                continue;
+            }
+
+            // Invalid API key, invalid schema, invalid model, etc.
+            throw err;
         }
-    });
-    const report = JSON.parse(response.text);
-    
+    }
 
-    const validatedReport =
-        interviewReportSchema.parse(report);
-    
-
-    return validatedReport;
+    throw lastError;
 }
 
 module.exports = generateInterviewReport;
