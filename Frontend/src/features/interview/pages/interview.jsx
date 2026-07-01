@@ -1,4 +1,4 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import "../style/interview.scss";
 import { useInterview } from "../hooks/useInterview";
 import { useNavigate, useParams, Link } from "react-router";
@@ -38,27 +38,53 @@ const RoadmapIcon = () => (
   </svg>
 );
 
+const DownloadIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M12 3v12" />
+    <path d="M7 10l5 5 5-5" />
+    <path d="M4 19h16" />
+  </svg>
+);
+
 const navItems = [
-  { id: "technical", label: "Technical Questions", icon: <CodeIcon /> },
-  { id: "behavioural", label: "Behavioural Questions", icon: <PeopleIcon /> },
+  { id: "technical", label: "Technical", icon: <CodeIcon /> },
+  { id: "behavioural", label: "Behavioural", icon: <PeopleIcon /> },
   { id: "roadmap", label: "Roadmap", icon: <RoadmapIcon /> },
 ];
+
+const MOBILE_BREAKPOINT = 760;
+const SCROLL_REVEAL_THRESHOLD = 260;
 
 const Interview = () => {
   const [activeSection, setActiveSection] = useState("technical");
   const [expandedTech, setExpandedTech] = useState(0);
   const [expandedBehavioral, setExpandedBehavioral] = useState(0);
   const [downloadingResume, setDownloadingResume] = useState(false);
-  
-  const {report,getReportById, loading} = useInterview()
+  const [showMobileExtras, setShowMobileExtras] = useState(false);
 
-  const {interviewId} = useParams()
+  const { report, getReportById, loading } = useInterview();
+  const { interviewId } = useParams();
 
-useEffect(()=> {
-  if(interviewId){
-    getReportById(interviewId)
-  }
-},[interviewId])
+  useEffect(() => {
+    if (interviewId) getReportById(interviewId);
+  }, [interviewId]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.innerWidth <= MOBILE_BREAKPOINT) {
+        setShowMobileExtras(window.scrollY > SCROLL_REVEAL_THRESHOLD);
+      } else {
+        setShowMobileExtras(true);
+      }
+    };
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
+    };
+  }, []);
 
   const toggleExpand = (setter, index) => {
     setter((prev) => (prev === index ? null : index));
@@ -83,56 +109,38 @@ useEffect(()=> {
     }
   };
 
- if (loading || !report) {
-  return (
-    <main className="report-loading">
-      <div className="loading-container">
-
-        <div className="loading-spinner"></div>
-
-        <h2>Generating Your Interview Report</h2>
-
-        <p>
-          We're analyzing your resume, job description, and interview
-          performance. This may take a few moments.
-        </p>
-
-        <div className="loading-progress">
-          <div className="loading-progress-bar"></div>
+  if (loading || !report) {
+    return (
+      <main className="report-loading">
+        <div className="loading-container">
+          <div className="loading-spinner"></div>
+          <h2>Generating Your Interview Report</h2>
+          <p>
+            We're analyzing your resume, job description, and interview
+            performance. This may take a few moments.
+          </p>
+          <div className="loading-progress">
+            <div className="loading-progress-bar"></div>
+          </div>
         </div>
-
-      </div>
-    </main>
-  );
-}
-
-  //  if (loading || !report) {
-  //       return (<main className="auth-page"><h1>Loading...</h1></main>)
-  //   }
+      </main>
+    );
+  }
 
   return (
     <div className="interview">
-      {/* TOPBAR */}
-      {/* <header className="topbar">
-        <div className="logo">
-          <div className="logo-icon">AI</div>
-          <span>InterviewAI</span>
-        </div>
-        <nav className="nav-links">
-          <a href="/">Dashboard</a>
-          <a href="#" className="active">Interview</a>
-          <a href="#">Resume</a>
-          <a href="#">Settings</a>
-        </nav>
-         <div className="topbar-actions">
-           <Link to="/pricing" className="upgrade-btn">Upgrade</Link>
-         </div>
-      </header> */}
-
-      <Header/>
+      <Header />
 
       <div className="main-layout">
-        {/* LEFT SIDEBAR */}
+        <div className="match-score-card">
+          <div className="match-score-header">
+            <span className="match-score-title">Interview Match Score</span>
+            <span className="match-score-badge">Generated Report</span>
+          </div>
+          <div className="match-score-value">{report.matchScore}%</div>
+          <div className="match-score-subtitle">Based on your resume vs job description alignment</div>
+        </div>
+
         <aside className="left-sidebar">
           <div className="sidebar-card">
             <div className="sidebar-card-title">Report Sections</div>
@@ -151,58 +159,40 @@ useEffect(()=> {
           </div>
         </aside>
 
-        {/* CENTER CONTENT */}
         <main className="center-content">
           {activeSection === "technical" && (
-            <>
-              {/* Match Score */}
-              <div className="match-score-card">
-                <div className="match-score-header">
-                  <span className="match-score-title">Interview Match Score</span>
-                  <span className="match-score-badge">Generated Report</span>
+            <div className="question-section">
+              <div className="section-header">
+                <div className="section-icon section-icon--tech"><CodeIcon /></div>
+                <div>
+                  <h2>Technical Questions</h2>
+                  <p>Core knowledge and problem-solving evaluation</p>
                 </div>
-                <div className="match-score-value">{report.matchScore}%</div>
-                <div className="match-score-subtitle">Based on your resume vs job description alignment</div>
               </div>
-
-              {/* Technical Questions */}
-              <div className="question-section">
-                <div className="section-header">
-                  <div className="section-icon section-icon--tech">
-                    <CodeIcon />
-                  </div>
-                  <div>
-                    <h2>Technical Questions</h2>
-                    <p>Core knowledge and problem-solving evaluation</p>
-                  </div>
-                </div>
-                <div className="questions-list">
-                  {report.technicalQuestions.map((q, idx) => (
-                    <div key={idx} className={`question-item ${expandedTech === idx ? "expanded" : ""}`}>
-                      <div className="question-header" onClick={() => toggleExpand(setExpandedTech, idx)}>
-                        <span className="question-number">{idx + 1}</span>
-                        <span className="question-text">{q.question}</span>
-                        <span className="question-toggle"><ChevronIcon /></span>
-                      </div>
-                      <div className="question-body">
-                        <div className="question-body-inner">
-                          <span className="question-intention">Intention: {q.intention}</span>
-                          <p className="question-answer">{q.answer}</p>
-                        </div>
+              <div className="questions-list">
+                {report.technicalQuestions.map((q, idx) => (
+                  <div key={idx} className={`question-item ${expandedTech === idx ? "expanded" : ""}`}>
+                    <div className="question-header" onClick={() => toggleExpand(setExpandedTech, idx)}>
+                      <span className="question-number">{idx + 1}</span>
+                      <span className="question-text">{q.question}</span>
+                      <span className="question-toggle"><ChevronIcon /></span>
+                    </div>
+                    <div className="question-body">
+                      <div className="question-body-inner">
+                        <span className="question-intention">Intention: {q.intention}</span>
+                        <p className="question-answer">{q.answer}</p>
                       </div>
                     </div>
-                  ))}
-                </div>
+                  </div>
+                ))}
               </div>
-            </>
+            </div>
           )}
 
           {activeSection === "behavioural" && (
             <div className="question-section">
               <div className="section-header">
-                <div className="section-icon section-icon--behavioral">
-                  <PeopleIcon />
-                </div>
+                <div className="section-icon section-icon--behavioral"><PeopleIcon /></div>
                 <div>
                   <h2>Behavioural Questions</h2>
                   <p>Soft skills, culture fit, and leadership assessment</p>
@@ -231,9 +221,7 @@ useEffect(()=> {
           {activeSection === "roadmap" && (
             <div className="roadmap">
               <div className="roadmap-header">
-                <div className="section-icon section-icon--roadmap">
-                  <RoadmapIcon />
-                </div>
+                <div className="section-icon section-icon--roadmap"><RoadmapIcon /></div>
                 <div>
                   <h2>7-Day Preparation Plan</h2>
                   <p className="roadmap-subtitle">A structured roadmap to ace your interview</p>
@@ -264,8 +252,7 @@ useEffect(()=> {
           )}
         </main>
 
-        {/* RIGHT SIDEBAR */}
-        <aside className="right-sidebar">
+        <aside className={`right-sidebar ${showMobileExtras ? "is-visible" : ""}`}>
           <div className="sidebar-card skill-gaps-card">
             <div className="skill-gaps-header">
               <h3>Skill Gaps</h3>
@@ -287,15 +274,21 @@ useEffect(()=> {
                 </div>
               ))}
             </div>
-            {/* <button className="download-resume-btn" onClick={handleDownloadResume} disabled={downloadingResume}>
-              {downloadingResume ? "Generating..." : "Download Resume"}
-            </button> */}
           </div>
           <button className="download-resume-btn" onClick={handleDownloadResume} disabled={downloadingResume}>
-              {downloadingResume ? "Generating..." : "Download Resume"}
-            </button>
+            {downloadingResume ? "Generating..." : "Download Resume"}
+          </button>
         </aside>
       </div>
+
+      <button
+        className={`mobile-fab ${showMobileExtras ? "is-hidden" : ""}`}
+        onClick={handleDownloadResume}
+        disabled={downloadingResume}
+      >
+        <DownloadIcon />
+        <span>{downloadingResume ? "Wait…" : "Resume"}</span>
+      </button>
     </div>
   );
 };

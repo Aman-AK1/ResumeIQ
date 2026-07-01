@@ -5,6 +5,7 @@ import Protected from "./features/auth/components/Protected";
 import Home from "./features/interview/pages/Home";
 import Interview from "./features/interview/pages/interview";
 import Pricing from "./features/pricing/pricing";
+import About from "./features/about/about";
 export const router = createBrowserRouter([
     {
         path: "/login",
@@ -25,5 +26,9 @@ export const router = createBrowserRouter([
     {
         path: "/pricing",
         element: <Protected><Pricing /></Protected>
+    }
+    ,{
+        path:"/about",
+        element:<Protected><About/></Protected>
     }
 ])

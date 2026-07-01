@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./pricing.scss";
 import { Link } from "react-router";
+import Header from "../header/header";
 
 const plans = [
   {
@@ -76,27 +77,36 @@ const Dash = () => (
   </svg>
 );
 
+const faqs = [
+  {
+    q: "What counts as one interview report?",
+    a: "One report is one resume paired with one job description — you get the match score, the generated question set, and (on Pro and above) the skill gap analysis and roadmap for that pairing.",
+  },
+  {
+    q: "Can I cancel anytime?",
+    a: "Yes. Cancel from your account settings whenever you like — you keep access until the end of the period you already paid for, no hidden fees.",
+  },
+  {
+    q: "Is there a free trial on Pro?",
+    a: "Pro includes a 7-day free trial with unlimited reports, so you can run it against every role you're actually applying to before you pay.",
+  },
+  {
+    q: "How is the match score calculated?",
+    a: "We parse your resume and the job description, then compare required skills, experience level, and keyword overlap to produce a single alignment score with the reasoning behind it.",
+  },
+];
+
 const Pricing = () => {
   const [annual, setAnnual] = useState(true);
+  const [openFaq, setOpenFaq] = useState(0);
+
+  const toggleFaq = (idx) => {
+    setOpenFaq((prev) => (prev === idx ? -1 : idx));
+  };
 
   return (
     <div className="dashboard pricing-page">
-      <header className="topbar">
-        <div className="logo">
-          <div className="logo-icon">R</div>
-          <span>ResumeIQ</span>
-        </div>
-
-        <nav className="nav-links">
-          <Link to="/" className="">Dashboard</Link>
-          <a href="#">Features</a>
-          <a href="#">About</a>
-        </nav>
-
-        <div className="topbar-actions">
-          <Link to="/" className="upgrade-btn">Back to Home</Link>
-        </div>
-      </header>
+      <Header/>
 
       <main className="pricing-main">
         <section className="pricing-hero">
@@ -189,36 +199,30 @@ const Pricing = () => {
         <section className="pricing-faq">
           <h2>Frequently Asked Questions</h2>
           <div className="faq-list">
-            <div className="faq-item">
-              <h4>What counts as one interview report?</h4>
-              <p>
-                One report is one resume paired with one job description — you get the match
-                score, the generated question set, and (on Pro and above) the skill gap
-                analysis and roadmap for that pairing.
-              </p>
-            </div>
-            <div className="faq-item">
-              <h4>Can I cancel anytime?</h4>
-              <p>
-                Yes. Cancel from your account settings whenever you like — you keep access
-                until the end of the period you already paid for, no hidden fees.
-              </p>
-            </div>
-            <div className="faq-item">
-              <h4>Is there a free trial on Pro?</h4>
-              <p>
-                Pro includes a 7-day free trial with unlimited reports, so you can run it
-                against every role you're actually applying to before you pay.
-              </p>
-            </div>
-            <div className="faq-item">
-              <h4>How is the match score calculated?</h4>
-              <p>
-                We parse your resume and the job description, then compare required skills,
-                experience level, and keyword overlap to produce a single alignment score
-                with the reasoning behind it.
-              </p>
-            </div>
+            {faqs.map((item, idx) => {
+              const isOpen = openFaq === idx;
+              return (
+                <div className={`faq-item ${isOpen ? "is-open" : ""}`} key={idx}>
+                  <button
+                    type="button"
+                    className="faq-question"
+                    onClick={() => toggleFaq(idx)}
+                    aria-expanded={isOpen}
+                    aria-controls={`faq-answer-${idx}`}
+                  >
+                    <h4>{item.q}</h4>
+                    <span className="faq-chevron" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="6 9 12 15 18 9" />
+                      </svg>
+                    </span>
+                  </button>
+                  <div className="faq-answer" id={`faq-answer-${idx}`}>
+                    <p>{item.a}</p>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </section>
       </main>

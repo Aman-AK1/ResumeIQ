@@ -1,25 +1,381 @@
-.nav-links {
-    display: flex;
-    gap: 32px;
+$navy: #1b2a5e;
+$navy-deep: #111b3d;
+$blue: #3659e6;
+$blue-vivid: #4066f0;
+$ink: #0f1420;
+$ink-soft: #4a5163;
+$ink-muted: #8b91a4;
+$border-light: #eef0f5;
+$border: #e8eaf0;
+$surface: #ffffff;
+$surface-subtle: #f8f9fc;
+$font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
-    a {
-        text-decoration: none;
-        color: #9ca3af;
-        font-weight: 500;
-        transition: .25s;
+.app-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 100;
+  font-family: $font;
+  background: rgba(255, 255, 255, 0.97) !important;;  // much less transparent
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  border-bottom: 1px solid rgba(232, 234, 240, 0.8);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.6); // crisp highlight instead of the ambiguous gray seam
+  transform: translateY(0);
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
 
-        &:hover {
-            color: white;
-        }
-
-        &.active {
-            color: white;
-        }
-    }
+  &.is-hidden {
+    transform: translateY(-100%);
+  }
 }
 
-.topbar-actions{
-    display:flex;
-    align-items:center;
-    gap:18px;
+
+body {
+  padding-top: 65px; // matches .app-header offsetHeight
+  background: #f4f5f9;
+}
+
+.app-header__inner {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  height: 64px;
+  padding: 0 24px;
+  max-width: 1480px;
+  margin: 0 auto;
+}
+
+// ---------- Logo ----------
+.app-header__logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.app-header__logo-mark {
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  background: linear-gradient(135deg, $navy 0%, $blue 100%);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 0.78rem;
+  box-shadow: 0 4px 12px rgba(54, 89, 230, 0.3);
+  flex-shrink: 0;
+}
+
+.app-header__logo-text {
+  font-size: 1.02rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: $navy;
+  white-space: nowrap;
+}
+
+// ---------- Desktop nav ----------
+.app-header__nav {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  a {
+    text-decoration: none;
+    color: $ink-soft;
+    font-weight: 500;
+    font-size: 0.88rem;
+    white-space: nowrap;
+    padding: 8px 14px;
+    border-radius: 8px;
+    transition: color 0.15s ease, background 0.15s ease;
+
+    &:hover { color: $ink; background: $surface-subtle; }
+    &.active { color: $navy; font-weight: 600; background: rgba(54, 89, 230, 0.08); }
+  }
+}
+
+.app-header__actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-left: auto;
+}
+
+.app-header__upgrade {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg, $navy 0%, $blue-vivid 100%);
+  padding: 9px 18px;
+  border-radius: 999px;
+  text-decoration: none;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(54, 89, 230, 0.25);
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  display: inline-block;
+
+  &:hover {
+    opacity: 0.92;
+    transform: translateY(-1px);
+  }
+}
+
+.app-header__avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, $blue, $navy);
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+// ---------- Hamburger (mobile only, top right) ----------
+.app-header__hamburger {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 10px;
+  background: $surface-subtle;
+  color: $navy;
+  cursor: pointer;
+  flex-shrink: 0;
+  margin-left: auto;
+  transition: background 0.15s ease, transform 0.15s ease;
+
+  svg { width: 20px; height: 20px; }
+
+  &:active {
+    background: $border-light;
+    transform: scale(0.94);
+  }
+}
+
+// ================= MOBILE (≤760px) =================
+@media (max-width: 760px) {
+  .app-header__inner {
+    padding: 0 14px;
+    gap: 12px;
+  }
+
+  .app-header__hamburger {
+    display: flex;
+  }
+
+  .app-header__nav,
+  .app-header__actions {
+    display: none;
+  }
+
+  .app-header__logo-text {
+    font-size: 0.98rem;
+  }
+}
+
+// ================= MOBILE DRAWER =================
+// Slides in from the RIGHT, same side as the hamburger trigger.
+
+.app-drawer-overlay {
+  display: none;
+}
+
+.app-drawer {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  .app-drawer-overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 14, 26, 0.55);
+    backdrop-filter: blur(3px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.32s ease, visibility 0.32s ease;
+    z-index: 998;
+
+    &.is-open {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+
+  .app-drawer {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: auto;
+    height: 100vh;
+    height: 100dvh; // account for mobile browser chrome
+    width: 82%;
+    max-width: 320px;
+    background: linear-gradient(180deg, #ffffff 0%, #fbfbfe 100%);
+    box-shadow: -20px 0 60px rgba(15, 20, 32, 0.22);
+    transform: translateX(105%);
+    transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+    z-index: 999;
+    padding: 20px 18px;
+    box-sizing: border-box;
+
+    &.is-open {
+      transform: translateX(0);
+    }
+  }
+
+  .app-drawer__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 20px;
+    margin-bottom: 8px;
+    border-bottom: 1px solid $border-light;
+    flex-shrink: 0;
+  }
+
+  .app-drawer__close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 50%;
+    background: $surface-subtle;
+    color: $ink-soft;
+    cursor: pointer;
+    transition: background 0.15s ease, transform 0.15s ease;
+    flex-shrink: 0;
+
+    svg { width: 16px; height: 16px; }
+
+    &:active {
+      transform: scale(0.9);
+      background: $border-light;
+    }
+  }
+
+  .app-drawer__nav {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex-shrink: 0;
+
+    a {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      text-decoration: none;
+      color: $ink-soft;
+      font-weight: 500;
+      font-size: 0.96rem;
+      padding: 15px 12px;
+      border-radius: 12px;
+      transition: background 0.15s ease, color 0.15s ease;
+
+      svg {
+        width: 16px;
+        height: 16px;
+        opacity: 0.4;
+        flex-shrink: 0;
+      }
+
+      &:active { background: $surface-subtle; }
+
+      &.active {
+        background: linear-gradient(135deg, rgba(54, 89, 230, 0.1), rgba(27, 42, 94, 0.06));
+        color: $navy;
+        font-weight: 700;
+
+        svg { opacity: 1; color: $blue; }
+      }
+    }
+  }
+
+  // Pushes footer down regardless of how much nav content exists above
+  .app-drawer__spacer {
+    flex: 1 1 auto;
+  }
+
+  .app-drawer__footer {
+    flex-shrink: 0;
+    padding-top: 18px;
+    border-top: 1px solid $border-light;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .app-drawer__upgrade {
+    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .app-drawer__profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 4px;
+  }
+
+  .app-drawer__profile-text {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+
+  .app-drawer__profile-name {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: $ink;
+  }
+
+  .app-drawer__profile-sub {
+    font-size: 0.74rem;
+    color: $ink-muted;
+  }
+  html, body {
+    overflow-x: hidden;
+    max-width: 100%;
+    scroll-behavior: smooth;
+  }
+
+  .interview {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  .main-layout {
+  width: 100%;
+  max-width: 100%;
+  padding: 73px 14px 110px; // 65px header + 8px gap
+}
+  .app-drawer-overlay.is-open {
+    touch-action: none;
+  }
+
+  .app-drawer {
+    touch-action: pan-y; // allow scrolling *inside* the drawer only
+    overflow-y: auto;
+  }
+  
 }

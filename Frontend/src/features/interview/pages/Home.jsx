@@ -497,6 +497,7 @@ useEffect(() => {
                     <a href="#">Contact Us</a>
                 </nav>
             </footer>
+            
 
         </div>
     );
