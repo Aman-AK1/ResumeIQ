@@ -556,7 +556,13 @@ async function generateResumeData({ resume, selfDescription, jobDescription }) {
                     items: { type: "string" }
                 }
 
-            }
+            },  required:[
+        "languages",
+        "frontend",
+        "backend",
+        "databases",
+        "tools"
+    ]
 
         },
 
@@ -586,7 +592,14 @@ async function generateResumeData({ resume, selfDescription, jobDescription }) {
 
                     }
 
-                }
+                }, 
+                required:[
+    "company",
+    "role",
+    "duration",
+    "location",
+    "description"
+]
 
             }
 
@@ -620,7 +633,11 @@ async function generateResumeData({ resume, selfDescription, jobDescription }) {
 
                     }
 
-                }
+                }, required:[
+    "title",
+    "technologies",
+    "description"
+]
 
             }
 
@@ -644,7 +661,12 @@ async function generateResumeData({ resume, selfDescription, jobDescription }) {
 
                     cgpa: { type: "string" }
 
-                }
+                }, required:[
+    "degree",
+    "college",
+    "year",
+    "cgpa"
+]
 
             }
 
@@ -674,7 +696,25 @@ async function generateResumeData({ resume, selfDescription, jobDescription }) {
 
         }
 
-    }
+    }, 
+    required: [
+    "name",
+    "title",
+    "email",
+    "phone",
+    "location",
+    "linkedin",
+    "github",
+    "portfolio",
+    "summary",
+    "technicalSkills",
+    "experience",
+    "projects",
+    "education",
+    "certifications",
+    "achievements",
+    "languages"
+]
 }
 
     const resumeSchema = z.object({
@@ -683,9 +723,9 @@ async function generateResumeData({ resume, selfDescription, jobDescription }) {
 
     title: z.string(),
 
-    email: z.string(),
+    email: z.string().default(""),
 
-    phone: z.string(),
+    phone: z.string().default(""),
 
     location: z.string().optional(),
 
@@ -804,6 +844,17 @@ Requirements:
 - Write concise but impactful project descriptions.
 - Write 3–5 bullet points for each experience/project where appropriate.
 - If information is missing, return an empty string or empty array instead of "undefined".
+-Never omit any field.
+
+Every field defined in the response schema MUST be returned.
+
+If a value is unavailable:
+
+- return "" for strings
+- return [] for arrays
+- return {} for objects
+
+Do not omit keys.
 `;
 
     const MODELS = [
@@ -831,7 +882,22 @@ Requirements:
 
             console.log(`Success with model: ${model}`);
 
-            const jsonContent = JSON.parse(response.text);
+// const fs = require("fs");
+
+// // Check what Gemini returned
+// console.log("Type:", typeof response.text);
+// console.log("Length:", response.text?.length);
+
+// fs.writeFileSync("gemini-response.txt", response.text || "");
+
+// console.log("Response saved.");
+
+const jsonContent = JSON.parse(response.text);
+
+// require("fs").writeFileSync(
+//     "parsed.json",
+//     JSON.stringify(jsonContent,null,2)
+// );
 
             const validatedResume = resumeSchema.parse(jsonContent);
 

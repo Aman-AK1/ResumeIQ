@@ -1,0 +1,110 @@
+{
+  "name": "Daniel Thompson",
+  "title": "Backend Software Engineer",
+  "email": "daniel.thompson@example.com",
+  "phone": "+44 7700 900123",
+  "location": "London, UK",
+  "linkedin": "",
+  "github": "",
+  "portfolio": "",
+  "summary": "Detail-oriented Software Engineer with over 2 years of experience specializing in backend development, scalable web architectures, and cloud integration. Proven expertise in building secure RESTful APIs with Node.js and Express.js, implementing JWT authentication, and optimizing PostgreSQL and MongoDB database performance. Collaborative team player experienced in Agile methodologies, committed to writing clean, maintainable code that drives high-performance system reliability.",
+  "technicalSkills": {
+    "languages": [
+      "JavaScript",
+      "TypeScript",
+      "HTML",
+      "CSS",
+      "SQL"
+    ],
+    "frontend": [
+      "React",
+      "Next.js",
+      "Tailwind CSS"
+    ],
+    "backend": [
+      "Node.js",
+      "Express.js"
+    ],
+    "databases": [
+      "PostgreSQL",
+      "MongoDB"
+    ],
+    "tools": [
+      "Git",
+      "Docker",
+      "AWS"
+    ]
+  },
+  "experience": [
+    {
+      "company": "PixelSoft Ltd.",
+      "role": "Software Engineer",
+      "duration": "2024–Present",
+      "location": "London, UK",
+      "description": [
+        "Designed and maintained highly performant backend services and secure REST APIs using Node.js and Express.js.",
+        "Optimized database queries and API response times, resulting in a 30% improvement in backend performance metrics.",
+        "Developed customer-facing management dashboards using React, facilitating seamless integration with backend APIs.",
+        "Collaborated in Agile Scrum teams to participate in sprint planning, conduct robust code reviews, and align with frontend developers."
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "title": "CRM Dashboard",
+      "technologies": [
+        "React",
+        "Node.js",
+        "Express.js",
+        "PostgreSQL"
+      ],
+      "description": [
+        "Architected an interactive dashboard providing real-time data visualization of customer interactions and performance metrics.",
+        "Engineered optimized SQL queries to decrease database fetch times and improve system throughput."
+      ]
+    },
+    {
+      "title": "Online Learning Platform",
+      "technologies": [
+        "Node.js",
+        "Express.js",
+        "MongoDB",
+        "JWT"
+      ],
+      "description": [
+        "Developed scalable API endpoints supporting student registration, course progress tracking, and secure logins.",
+        "Implemented secure session handling and authentication protocols utilizing JSON Web Tokens (JWT)."
+      ]
+    },
+    {
+      "title": "AI Resume Analyzer",
+      "technologies": [
+        "Node.js",
+        "Express.js",
+        "React",
+        "APIs"
+      ],
+      "description": [
+        "Built a robust analysis tool utilizing Node.js backend services to parse structured resume data efficiently.",
+        "Integrated secure API communication channels between the backend engine and responsive React interfaces."
+      ]
+    }
+  ],
+  "education": [
+    {
+      "degree": "B.Sc. Computer Science",
+      "college": "University of Manchester",
+      "year": "2019–2023",
+      "cgpa": ""
+    }
+  ],
+  "certifications": [
+    "AWS Cloud Practitioner",
+    "Google Professional Data Analytics"
+  ],
+  "achievements": [
+    "Winner – University Coding Challenge 2023",
+    "Top Performer Award 2025"
+  ],
+  "languages": []
+}

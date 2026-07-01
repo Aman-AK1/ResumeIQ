@@ -71,6 +71,7 @@ $font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
 .interview {
   min-height: 100vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   background: $bg;
@@ -78,6 +79,7 @@ $font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   color: $ink;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
 }
 
 // ===================== TOPBAR =====================
@@ -86,9 +88,9 @@ $font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   flex-shrink: 0;
   display: flex;
   align-items: center;
-  gap: 36px;
-  height: 68px;
-  padding: 0 36px;
+  gap: 24px;
+  height: 64px;
+  padding: 0 24px;
   background: rgba(255, 255, 255, 0.78);
   backdrop-filter: blur(14px) saturate(160%);
   -webkit-backdrop-filter: blur(14px) saturate(160%);
@@ -97,8 +99,9 @@ $font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   top: 0;
   z-index: 100;
 
-  @media (max-width: 1200px) {
-    display: none;
+  @media (max-width: 900px) {
+    gap: 14px;
+    padding: 0 16px;
   }
 }
 
@@ -133,8 +136,14 @@ $font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   display: flex;
   align-items: center;
   gap: 4px;
+  overflow-x: auto;
+  scrollbar-width: none;
 
-  @media (max-width: 1200px) {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  @media (max-width: 760px) {
     display: none;
   }
 
@@ -146,6 +155,7 @@ $font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     text-decoration: none;
     padding: 8px 16px;
     border-radius: $radius-sm;
+    white-space: nowrap;
     transition: color 0.15s ease, background 0.15s ease;
 
     &:hover {
@@ -157,10 +167,6 @@ $font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       color: $navy;
       font-weight: 600;
       background: $navy-surface;
-
-      &::after {
-        display: none;
-      }
     }
   }
 }
@@ -172,27 +178,42 @@ $font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   gap: 12px;
 }
 
-.upgrade-btn {
+.icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
   border: none;
-  background: linear-gradient(135deg, $navy 0%, $blue-vivid 100%);
-  color: #fff;
-  font-size: 0.85rem;
-  font-weight: 600;
-  padding: 9px 20px;
-  border-radius: $radius-sm;
+  border-radius: 50%;
+  background: transparent;
+  color: $ink-soft;
   cursor: pointer;
-  transition: opacity 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
-  box-shadow: 0 4px 14px rgba(54, 89, 230, 0.3);
+  transition: background 0.15s ease, color 0.15s ease;
+
+  svg {
+    width: 19px;
+    height: 19px;
+  }
 
   &:hover {
-    opacity: 0.92;
-    box-shadow: 0 6px 20px rgba(54, 89, 230, 0.38);
-    transform: translateY(-1px);
+    background: $surface-subtle;
+    color: $ink;
   }
+}
 
-  &:active {
-    transform: translateY(0);
-  }
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, $blue, $navy);
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
 // ===================== LAYOUT =====================
@@ -200,16 +221,37 @@ $font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 .main-layout {
   flex: 1;
   display: grid;
-  grid-template-columns: 260px 1fr 340px;
+  grid-template-columns: 248px 1fr 300px;
   gap: 24px;
   max-width: 1480px;
   margin: 0 auto;
-  padding: 32px 36px 48px;
+  padding: 28px 36px 48px;
   width: 100%;
+  min-height: 0;
+  overflow: hidden;
 
-  @media (max-width: 1300px) {
+  @media (max-width: 1180px) {
+    grid-template-columns: 220px 1fr;
+    padding: 24px 24px 40px;
+
+    .right-sidebar {
+      grid-column: 1 / -1;
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+
+    .right-sidebar .sidebar-card {
+      flex: 1 1 280px;
+    }
+  }
+
+  @media (max-width: 860px) {
     grid-template-columns: 1fr;
-    padding: 24px 20px;
+    grid-template-rows: auto;
+    padding: 20px 16px 36px;
+    gap: 18px;
+    height: auto;
+    overflow: visible;
   }
 }
 
@@ -219,9 +261,44 @@ $font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   display: flex;
   flex-direction: column;
   gap: 16px;
+  position: sticky;
+  top: 0;
+  align-self: start;
 
-  @media (max-width: 1300px) {
-    display: none;
+  @media (max-width: 860px) {
+    position: static;
+    flex-direction: row;
+    gap: 10px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding-bottom: 2px;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    .sidebar-card--header,
+    .sidebar-card--upsell {
+      display: none;
+    }
+
+    .sidebar-card {
+      flex-shrink: 0;
+      padding: 8px;
+    }
+
+    .sidebar-nav {
+      flex-direction: row;
+      gap: 6px;
+    }
+
+    .sidebar-link {
+      flex-direction: column;
+      gap: 4px;
+      padding: 10px 14px;
+      font-size: 0.76rem;
+      white-space: nowrap;
+    }
   }
 }
 
@@ -229,21 +306,52 @@ $font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   @include glass;
   border: 1px solid $border-light;
   border-radius: $radius-lg;
-  padding: 20px;
+  padding: 18px;
   display: flex;
   flex-direction: column;
   gap: 6px;
   box-shadow: $shadow-sm;
 }
 
+.sidebar-card--header {
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 18px;
+}
+
+.sidebar-card-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: $radius-md;
+  background: linear-gradient(135deg, $navy 0%, $blue 100%);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(54, 89, 230, 0.25);
+
+  svg {
+    width: 18px;
+    height: 18px;
+  }
+}
+
 .sidebar-card-title {
-  font-size: 0.72rem;
-  font-weight: 600;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: $ink;
+  letter-spacing: -0.01em;
+}
+
+.sidebar-card-eyebrow {
+  font-size: 0.68rem;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.07em;
   color: $ink-muted;
-  padding: 0 12px;
-  margin-bottom: 4px;
+  margin-top: 2px;
 }
 
 .sidebar-nav {
@@ -303,13 +411,102 @@ $font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   }
 }
 
+.sidebar-card--upsell {
+  background: linear-gradient(135deg, $navy-deep 0%, $navy 60%, $blue 100%);
+  border: none;
+  gap: 12px;
+  padding: 20px;
+}
+
+.upsell-label {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #fff;
+  line-height: 1.4;
+}
+
+.upsell-btn {
+  border: none;
+  background: #fff;
+  color: $navy;
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 10px 16px;
+  border-radius: $radius-sm;
+  cursor: pointer;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+
+  &:hover {
+    opacity: 0.92;
+    transform: translateY(-1px);
+  }
+}
+
 // ===================== CENTER CONTENT =====================
 
 .center-content {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 20px;
   min-width: 0;
+  height: 100%;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 6px;
+
+  > * {
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 860px) {
+    height: auto;
+    overflow-y: visible;
+    padding-right: 0;
+  }
+}
+
+.center-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+
+  h1 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: $ink;
+  }
+
+  @media (max-width: 600px) {
+    h1 {
+      font-size: 1.2rem;
+    }
+  }
+}
+
+.center-header-tags {
+  display: flex;
+  gap: 8px;
+}
+
+.header-tag {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: $ink-soft;
+  background: $surface;
+  border: 1px solid $border;
+  padding: 6px 14px;
+  border-radius: 999px;
+  white-space: nowrap;
+
+  &--accent {
+    color: $blue;
+    background: $blue-soft;
+    border-color: rgba(54, 89, 230, 0.15);
+  }
 }
 
 // ---------- Match Score ----------
@@ -322,6 +519,11 @@ $font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   box-shadow: $shadow-lg, 0 12px 40px rgba(27, 42, 94, 0.24);
   position: relative;
   overflow: hidden;
+  flex-shrink: 0;
+
+  @media (max-width: 600px) {
+    padding: 24px 22px;
+  }
 
   &::before {
     content: "";
@@ -395,15 +597,10 @@ $font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 // ---------- Question Sections ----------
 
 .question-section {
-  background: $surface;
-  border: 1px solid $border-light;
-  border-radius: $radius-xl;
-  box-shadow: $shadow-md;
-  padding: 32px;
+  background: transparent;
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  transition: box-shadow 0.2s ease;
+  gap: 12px;
 }
 
 .section-header {
@@ -439,46 +636,32 @@ $font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   }
 }
 
-.section-header-text h2 {
-  font-size: 1.2rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  color: $ink;
-}
-
-.section-header-text p {
-  font-size: 0.88rem;
-  color: $ink-soft;
-  margin-top: 3px;
-  font-weight: 450;
-}
-
 // ---------- Question List ----------
 
 .questions-list {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 14px;
 }
 
 // ---------- Question Item (Accordion) ----------
 
 .question-item {
   border: 1px solid $border-light;
-  border-radius: $radius-md;
+  border-radius: $radius-lg;
   overflow: hidden;
   transition: all 0.18s ease;
   background: $surface;
+  box-shadow: $shadow-sm;
 
   &:hover {
     border-color: $border;
-    box-shadow: $shadow-xs;
+    box-shadow: $shadow-md;
   }
 
   &.expanded {
     border-color: $border-strong;
-    box-shadow: $shadow-sm;
-    background: $surface;
+    box-shadow: $shadow-md;
   }
 }
 
@@ -491,6 +674,7 @@ $font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   transition: background 0.15s ease;
   user-select: none;
   background: transparent;
+  flex-wrap: wrap;
 
   &:hover {
     background: $surface-hover;
@@ -498,6 +682,11 @@ $font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
   .question-item.expanded & {
     background: $surface-subtle;
+  }
+
+  @media (max-width: 600px) {
+    padding: 14px 16px;
+    gap: 10px;
   }
 }
 
@@ -531,6 +720,20 @@ $font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   line-height: 1.5;
   color: $ink;
   letter-spacing: -0.01em;
+}
+
+.question-category {
+  flex-shrink: 0;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: $ink-muted;
+  background: $surface-subtle;
+  border: 1px solid $border-light;
+  padding: 4px 10px;
+  border-radius: 999px;
+  white-space: nowrap;
 }
 
 .question-toggle {
@@ -575,26 +778,22 @@ $font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   display: flex;
   flex-direction: column;
   gap: 12px;
+
+  @media (max-width: 600px) {
+    padding: 4px 16px 18px 16px;
+  }
 }
 
 .question-intention {
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: $blue;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  display: flex;
-  align-items: center;
-  gap: 6px;
+  font-size: 0.85rem;
+  font-style: italic;
+  color: $ink-soft;
+  line-height: 1.5;
+  border-left: 2px solid $blue-soft;
+  padding-left: 12px;
 
   &::before {
-    content: "";
-    display: inline-block;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: $blue;
-    opacity: 0.7;
+    content: none;
   }
 }
 
@@ -603,6 +802,10 @@ $font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   line-height: 1.75;
   color: $ink-soft;
   font-weight: 420;
+  background: $surface-subtle;
+  border-left: 3px solid $blue-soft;
+  border-radius: $radius-sm;
+  padding: 14px 16px;
 }
 
 // ---------- Roadmap ----------
@@ -612,31 +815,10 @@ $font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   border: 1px solid $border-light;
   border-radius: $radius-xl;
   box-shadow: $shadow-md;
-  padding: 32px;
+  padding: 28px;
   display: flex;
   flex-direction: column;
   gap: 24px;
-  transition: box-shadow 0.2s ease;
-}
-
-.roadmap-header {
-  display: flex;
-  align-items: flex-start;
-  gap: 16px;
-}
-
-.roadmap-header h2 {
-  font-size: 1.2rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  color: $ink;
-}
-
-.roadmap-subtitle {
-  font-size: 0.88rem;
-  color: $ink-soft;
-  margin-top: 3px;
-  font-weight: 450;
 }
 
 .roadmap-timeline {
@@ -686,8 +868,6 @@ $font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   background: $surface;
   border: 2.5px solid $blue;
   box-shadow: 0 0 0 4px $blue-glow, $shadow-xs;
-  transition: all 0.2s ease;
-  position: relative;
 }
 
 .roadmap-content {
@@ -758,13 +938,7 @@ $font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     height: 6px;
     border-radius: 50%;
     background: $border-strong;
-    transition: background 0.15s ease;
   }
-}
-
-.roadmap-content:hover .roadmap-tasks li::before {
-  background: $blue;
-  opacity: 0.6;
 }
 
 // ===================== RIGHT SIDEBAR =====================
@@ -773,9 +947,13 @@ $font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   display: flex;
   flex-direction: column;
   gap: 20px;
+  position: sticky;
+  top: 0;
+  align-self: start;
 
-  @media (max-width: 1300px) {
-    display: none;
+  @media (max-width: 860px) {
+    position: static;
+    flex-direction: column;
   }
 }
 
@@ -784,17 +962,13 @@ $font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   border: 1px solid $border-light;
   border-radius: $radius-lg;
   box-shadow: $shadow-md, 0 12px 40px rgba(15, 20, 32, 0.04);
-  padding: 24px;
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(16px) saturate(150%);
-  -webkit-backdrop-filter: blur(16px) saturate(150%);
+  padding: 22px;
 }
 
 .skill-gaps-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 6px;
 }
 
 .sidebar-card h3 {
@@ -804,178 +978,161 @@ $font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   letter-spacing: -0.02em;
 }
 
-.skill-gaps-count {
-  font-size: 0.72rem;
-  font-weight: 700;
-  color: $navy;
-  background: $navy-surface;
-  padding: 4px 12px;
-  border-radius: 999px;
-  letter-spacing: 0.01em;
-  border: 1px solid $border-light;
-}
-
 .sidebar-card .card-subtitle {
-  font-size: 0.84rem;
-  color: $ink-soft;
-  margin-bottom: 22px;
-  line-height: 1.5;
-  font-weight: 420;
-  padding-right: 4px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: $ink-muted;
+  margin-bottom: 18px;
 }
 
 .skill-gap-list {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12px;
+  margin-bottom: 18px;
 }
 
 .skill-gap-card {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 20px 22px;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px 16px;
   border-radius: $radius-md;
-  border: 1px solid $border-light;
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  border: 1.5px solid $border-light;
+  background: $surface;
   transition: all 0.18s ease;
-  position: relative;
-  min-height: 72px;
-  box-shadow: $shadow-xs;
-
-  &::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 14px;
-    bottom: 14px;
-    width: 4px;
-    border-radius: 0 4px 4px 0;
-    transition: all 0.18s ease;
-  }
 
   &:hover {
-    background: rgba(255, 255, 255, 0.95);
-    border-color: $border;
     box-shadow: $shadow-sm;
-    transform: translateY(-2px);
   }
 
   &--high {
-    &::before {
-      background: $rose;
-      box-shadow: 0 0 12px rgba(229, 77, 92, 0.25);
-    }
+    border-color: rgba(229, 77, 92, 0.5);
   }
 
   &--medium {
-    &::before {
-      background: $amber;
-      box-shadow: 0 0 12px rgba(229, 159, 31, 0.25);
-    }
+    border-color: rgba(229, 159, 31, 0.5);
   }
 
   &--low {
-    &::before {
-      background: $emerald;
-      box-shadow: 0 0 12px rgba(12, 158, 120, 0.25);
-    }
+    border-color: rgba(12, 158, 120, 0.5);
   }
 }
 
-.skill-gap-content {
+.skill-gap-top {
   display: flex;
   align-items: center;
-  gap: 14px;
-  min-width: 0;
-  flex: 1;
+  justify-content: space-between;
+  gap: 10px;
 }
-
-.skill-gap-indicator {
-  width: 32px;
-  height: 32px;
-  border-radius: $radius-sm;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  transition: all 0.18s ease;
-
-  .skill-gap-card:hover & {
-    transform: scale(1.08);
-  }
-
-  svg {
-    width: 14px;
-    height: 14px;
-  }
-
-  &--high {
-    background: $rose-soft;
-    color: $rose;
-    border: 1px solid rgba(229, 77, 92, 0.08);
-  }
-
-  &--medium {
-    background: $amber-soft;
-    color: $amber;
-    border: 1px solid rgba(229, 159, 31, 0.08);
-  }
-
-  &--low {
-    background: $emerald-soft;
-    color: $emerald;
-    border: 1px solid rgba(12, 158, 120, 0.08);
-  }
-}
-
-
 
 .skill-gap-name {
-  font-size: 0.9rem;
-  font-weight: 600;
+  font-size: 0.88rem;
+  font-weight: 700;
   color: $ink;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
   letter-spacing: -0.01em;
 }
 
 .skill-gap-severity {
-  font-size: 0.7rem;
-  font-weight: 650;
+  font-size: 0.62rem;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.07em;
-  padding: 6px 14px;
+  letter-spacing: 0.06em;
+  padding: 3px 9px;
   border-radius: 999px;
   flex-shrink: 0;
   white-space: nowrap;
-  transition: all 0.18s ease;
-  border: 1px solid transparent;
-
-  .skill-gap-card:hover & {
-    transform: translateY(-1px);
-  }
 
   &--high {
     background: $rose-soft;
     color: $rose;
-    border-color: rgba(229, 77, 92, 0.12);
   }
 
   &--medium {
     background: $amber-soft;
     color: $amber;
-    border-color: rgba(229, 159, 31, 0.12);
   }
 
   &--low {
     background: $emerald-soft;
     color: $emerald;
-    border-color: rgba(12, 158, 120, 0.12);
+  }
+}
+
+.skill-gap-description {
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: $ink-soft;
+}
+
+.skill-gap-bar {
+  height: 5px;
+  border-radius: 999px;
+  background: $surface-subtle;
+  overflow: hidden;
+}
+
+.skill-gap-bar-fill {
+  height: 100%;
+  border-radius: 999px;
+
+  &--high {
+    width: 30%;
+    background: $rose;
+  }
+
+  &--medium {
+    width: 55%;
+    background: $amber;
+  }
+
+  &--low {
+    width: 80%;
+    background: $emerald;
+  }
+}
+
+.skill-gap-levels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: $ink-muted;
+}
+
+.download-resume-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: none;
+  border-radius: $radius-md;
+  padding: 13px;
+  background: linear-gradient(135deg, $navy 0%, $blue-vivid 100%);
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+  box-shadow: 0 4px 14px rgba(54, 89, 230, 0.28);
+
+  svg {
+    width: 17px;
+    height: 17px;
+  }
+
+  &:hover:not(:disabled) {
+    opacity: 0.92;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(54, 89, 230, 0.36);
+  }
+
+  &:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
   }
 }
 
@@ -1017,21 +1174,12 @@ $font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   animation: fadeInUp 0.4s ease forwards;
 }
 
-.question-section:nth-child(2) {
-  animation-delay: 0.05s;
-}
-
-.roadmap {
-  animation-delay: 0.1s;
-}
-
 // ===================== SELECTION =====================
 
 ::selection {
   background: $blue-soft;
   color: $navy;
 }
-
 
 .auth-page {
   min-height: 100vh;
@@ -1042,12 +1190,101 @@ $font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   color: $ink;
   -webkit-font-smoothing: antialiased;
 
-  // Fallback styling for the bare "Loading..." state both pages render
-  // before the form mounts.
   > h1 {
     margin: auto;
     font-size: 1.05rem;
     font-weight: 600;
     color: $ink-soft;
+  }
+}
+
+/* ===========================
+   Loading Screen
+=========================== */
+
+.report-loading {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  background: #f8fafc;
+}
+
+.loading-container {
+  width: 100%;
+  max-width: 520px;
+  padding: 3rem;
+  background: #ffffff;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e5e7eb;
+}
+
+.loading-spinner {
+  width: 70px;
+  height: 70px;
+  margin: 0 auto 2rem;
+  border-radius: 50%;
+  border: 6px solid #e5e7eb;
+  border-top: 6px solid #4f46e5;
+  animation: spin 0.9s linear infinite;
+}
+
+.loading-container h2 {
+  font-size: 1.7rem;
+  color: #1e293b;
+  margin-bottom: 0.8rem;
+  font-weight: 700;
+}
+
+.loading-container p {
+  color: #64748b;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.loading-progress {
+  width: 100%;
+  height: 8px;
+  border-radius: 20px;
+  background: #e5e7eb;
+  overflow: hidden;
+}
+
+.loading-progress-bar {
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    #6366f1,
+    #8b5cf6,
+    #6366f1
+  );
+  background-size: 200%;
+  animation: loadingBar 2s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes loadingBar {
+  0% {
+    width: 15%;
+    background-position: 0%;
+  }
+
+  50% {
+    width: 80%;
+    background-position: 100%;
+  }
+
+  100% {
+    width: 15%;
+    background-position: 0%;
   }
 }

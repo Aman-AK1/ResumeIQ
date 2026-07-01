@@ -1,7 +1,8 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "../style/home.scss";
 import { useInterview } from "../hooks/useInterview";
-import { Link, useNavigate } from "react-router";
+import { Link, useNavigate,useLocation} from "react-router";
+import Header from "../../header/header.jsx";
 
 const MAX_WORDS = 500;
 // Rough char cap to keep people near the word limit without server-side validation.
@@ -132,20 +133,63 @@ const Home = () => {
     const allReports = reports || [];
     const visibleReports = showAllReports ? allReports : allReports.slice(0, 3);
 
-    if (loading) {
 
-        return (
-            <main className="loading-screen">
-                <h1>Loading your report..</h1>
-            </main>
-        )
+    const location = useLocation();
 
+useEffect(() => {
+    const params = new URLSearchParams(location.search);
+
+    if (params.get("scroll") === "reports") {
+        document
+            .getElementById("recent-reports")
+            ?.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+            });
     }
+}, [location]);
+
+    // if (loading) {
+
+    //     return (
+    //         <main className="loading-screen">
+    //             <h1>Loading your report..</h1>
+    //         </main>
+    //     )
+
+    // }
+
+     if (loading) {
+        return (<main className="auth-page"><h1>Loading...</h1></main>)
+    }
+
+//     if (loading) {
+//     return (
+//         <main className="loading-screen">
+//             <div className="loading-container">
+
+//                 <div className="loading-spinner"></div>
+
+//                 <h2>Loading Your Interview Report</h2>
+
+//                 <p>
+//                     Please wait while we fetch your interview report and prepare
+//                     everything for you.
+//                 </p>
+
+//                 <div className="loading-progress">
+//                     <div className="loading-progress-bar"></div>
+//                 </div>
+
+//             </div>
+//         </main>
+//     );
+// }
 
     return (
         <div className="dashboard">
 
-            <header className="topbar">
+            {/* <header className="topbar">
                 <div className="logo">
                     <div className="logo-icon">R</div>
                     <span>ResumeIQ</span>
@@ -159,7 +203,7 @@ const Home = () => {
                 </nav>
 
                 <div className="topbar-actions">
-                    <button className="upgrade-btn">Upgrade Pro</button>
+                    <Link to="/pricing" className="upgrade-btn">Upgrade Pro</Link>
 
                     <button className="icon-btn" aria-label="Notifications" type="button">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
@@ -177,7 +221,9 @@ const Home = () => {
 
                     <div className="avatar" aria-label="Account">JS</div>
                 </div>
-            </header>
+            </header> */}
+
+            <Header/>
 
             <main className="home">
 
@@ -312,7 +358,7 @@ const Home = () => {
             <>
             
     
-            <div className="recent-interview-reports">
+            <div id="recent-reports" className="recent-interview-reports">
                 <div className="reports-header">
                     <h2>Recent Interview Reports</h2>
                     {allReports.length > 3 && (

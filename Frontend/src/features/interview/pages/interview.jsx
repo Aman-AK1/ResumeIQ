@@ -1,7 +1,9 @@
 import { useState,useEffect } from "react";
 import "../style/interview.scss";
 import { useInterview } from "../hooks/useInterview";
-import { useNavigate, useParams } from "react-router";
+import { useNavigate, useParams, Link } from "react-router";
+import { generateResumePdf } from "../services/interview.api";
+import Header from "../../header/header.jsx";
 
 const ChevronIcon = () => (
   <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -46,6 +48,7 @@ const Interview = () => {
   const [activeSection, setActiveSection] = useState("technical");
   const [expandedTech, setExpandedTech] = useState(0);
   const [expandedBehavioral, setExpandedBehavioral] = useState(0);
+  const [downloadingResume, setDownloadingResume] = useState(false);
   
   const {report,getReportById, loading} = useInterview()
 
@@ -61,13 +64,47 @@ useEffect(()=> {
     setter((prev) => (prev === index ? null : index));
   };
 
-  if(loading || !report){
-   return(
-    <main>
-      <h1> laoding your interview report</h1>
+  const handleDownloadResume = async () => {
+    setDownloadingResume(true);
+    try {
+      const blob = await generateResumePdf({ interviewId });
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `resume_${interviewId}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error("Failed to download resume", err);
+    } finally {
+      setDownloadingResume(false);
+    }
+  };
+
+ if (loading || !report) {
+  return (
+    <main className="report-loading">
+      <div className="loading-container">
+
+        <div className="loading-spinner"></div>
+
+        <h2>Generating Your Interview Report</h2>
+
+        <p>
+          We're analyzing your resume, job description, and interview
+          performance. This may take a few moments.
+        </p>
+
+        <div className="loading-progress">
+          <div className="loading-progress-bar"></div>
+        </div>
+
+      </div>
     </main>
-   )
-  }
+  );
+}
 
   //  if (loading || !report) {
   //       return (<main className="auth-page"><h1>Loading...</h1></main>)
@@ -76,7 +113,7 @@ useEffect(()=> {
   return (
     <div className="interview">
       {/* TOPBAR */}
-      <header className="topbar">
+      {/* <header className="topbar">
         <div className="logo">
           <div className="logo-icon">AI</div>
           <span>InterviewAI</span>
@@ -87,10 +124,12 @@ useEffect(()=> {
           <a href="#">Resume</a>
           <a href="#">Settings</a>
         </nav>
-        <div className="topbar-actions">
-          <button className="upgrade-btn">Upgrade</button>
-        </div>
-      </header>
+         <div className="topbar-actions">
+           <Link to="/pricing" className="upgrade-btn">Upgrade</Link>
+         </div>
+      </header> */}
+
+      <Header/>
 
       <div className="main-layout">
         {/* LEFT SIDEBAR */}
@@ -248,7 +287,13 @@ useEffect(()=> {
                 </div>
               ))}
             </div>
+            {/* <button className="download-resume-btn" onClick={handleDownloadResume} disabled={downloadingResume}>
+              {downloadingResume ? "Generating..." : "Download Resume"}
+            </button> */}
           </div>
+          <button className="download-resume-btn" onClick={handleDownloadResume} disabled={downloadingResume}>
+              {downloadingResume ? "Generating..." : "Download Resume"}
+            </button>
         </aside>
       </div>
     </div>
