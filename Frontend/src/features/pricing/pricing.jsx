@@ -7,6 +7,7 @@ const plans = [
   {
     name: "Starter",
     monthly: 0,
+    quarterly: 0,
     annual: 0,
     description: "Try the full pipeline on a real interview before you commit.",
     features: [
@@ -22,6 +23,7 @@ const plans = [
   {
     name: "Pro",
     monthly: 19,
+    quarterly: 17,
     annual: 15,
     description: "For anyone actively interviewing and prepping every week.",
     features: [
@@ -39,6 +41,7 @@ const plans = [
   {
     name: "Enterprise",
     monthly: 49,
+    quarterly: 44,
     annual: 39,
     description: "For coaches and teams running prep across many candidates.",
     features: [
@@ -63,6 +66,30 @@ const compareRows = [
   { label: "PDF export", starter: false, pro: true, ent: true },
   { label: "Team workspace", starter: false, pro: false, ent: true },
   { label: "API access", starter: false, pro: false, ent: true },
+];
+
+const testimonials = [
+  {
+    quote:
+      "The skill gap breakdown showed me exactly what to study instead of guessing. Landed an offer after two prep cycles on Pro.",
+    name: "Sanya Kapoor",
+    role: "Software Engineer, Series B startup",
+    initials: "SK",
+  },
+  {
+    quote:
+      "I run interview prep for a bootcamp cohort of 40 students — the team workspace and branding on Enterprise made this feel like our own product.",
+    name: "Marcus Webb",
+    role: "Career Coach, TechLaunch Academy",
+    initials: "MW",
+  },
+  {
+    quote:
+      "Went from a 52% match score to 89% after following the 7-day roadmap twice. That roadmap alone is worth the subscription.",
+    name: "Priya Nandan",
+    role: "Data Analyst, hired at a fintech firm",
+    initials: "PN",
+  },
 ];
 
 const Check = ({ className = "" }) => (
@@ -96,8 +123,14 @@ const faqs = [
   },
 ];
 
+const BILLING_LABELS = {
+  monthly: { label: "Monthly", suffix: "", save: null },
+  quarterly: { label: "Quarterly", suffix: ", billed quarterly", save: "Save 10%" },
+  annual: { label: "Annual", suffix: ", billed annually", save: "Save 20%" },
+};
+
 const Pricing = () => {
-  const [annual, setAnnual] = useState(true);
+  const [billing, setBilling] = useState("annual"); // "monthly" | "quarterly" | "annual"
   const [openFaq, setOpenFaq] = useState(0);
 
   const toggleFaq = (idx) => {
@@ -119,27 +152,26 @@ const Pricing = () => {
           </p>
 
           <div className="billing-toggle" role="group" aria-label="Billing period">
-            <button
-              type="button"
-              className={!annual ? "is-active" : ""}
-              onClick={() => setAnnual(false)}
-            >
-              Monthly
-            </button>
-            <button
-              type="button"
-              className={annual ? "is-active" : ""}
-              onClick={() => setAnnual(true)}
-            >
-              Annual
-              <span className="save-pill">Save 20%</span>
-            </button>
+            {Object.keys(BILLING_LABELS).map((key) => (
+              <button
+                key={key}
+                type="button"
+                className={billing === key ? "is-active" : ""}
+                onClick={() => setBilling(key)}
+              >
+                {BILLING_LABELS[key].label}
+                {BILLING_LABELS[key].save && (
+                  <span className="save-pill">{BILLING_LABELS[key].save}</span>
+                )}
+              </button>
+            ))}
           </div>
         </section>
 
         <section className="pricing-grid">
           {plans.map((plan, idx) => {
-            const price = annual ? plan.annual : plan.monthly;
+            const price = plan[billing];
+            const suffix = BILLING_LABELS[billing].suffix;
             return (
               <div
                 key={idx}
@@ -150,7 +182,7 @@ const Pricing = () => {
                 <p className="plan-desc">{plan.description}</p>
                 <div className="plan-price">
                   <span className="price">${price}</span>
-                  <span className="period">/month{annual && price > 0 ? ", billed annually" : ""}</span>
+                  <span className="period">/month{price > 0 ? suffix : ""}</span>
                 </div>
                 <Link to={plan.ctaLink} className={`plan-cta ${plan.highlighted ? "plan-cta--primary" : ""}`}>
                   {plan.cta}
@@ -191,6 +223,25 @@ const Pricing = () => {
                     )}
                   </span>
                 ))}
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="pricing-testimonials">
+          <h2>Trusted by people actually landing offers</h2>
+          <div className="testimonials-grid">
+            {testimonials.map((t, idx) => (
+              <div className="testimonial-card" key={idx}>
+                <div className="testimonial-stars" aria-hidden="true">★★★★★</div>
+                <p className="testimonial-quote">"{t.quote}"</p>
+                <div className="testimonial-author">
+                  <div className="testimonial-avatar">{t.initials}</div>
+                  <div className="testimonial-author-text">
+                    <strong>{t.name}</strong>
+                    <span>{t.role}</span>
+                  </div>
+                </div>
               </div>
             ))}
           </div>

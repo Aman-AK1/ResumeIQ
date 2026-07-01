@@ -136,7 +136,7 @@ useEffect(() => {
 
         <nav className="app-header__nav">
           <Link to="/" className="active">Dashboard</Link>
-          <Link to="#">About</Link>
+          <Link to="/about">About</Link>
           <Link to="/?scroll=reports">Recent Interview Reports</Link>
         </nav>
 
