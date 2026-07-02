@@ -4,7 +4,7 @@ const interviewReportModel = require("../models/interviewReport.model")
 const {generatePdfFromHtml} = require("../utils/pdfGenerator");
 const {modernResumeTemplate} = require("../templates/modernResume.template");
 
-const atsResumeTemplate = require("../templates/atsResume.template");
+const atsResumeTemplate = require("../templates/AtsResume.template");
 
 /**
  * @description controller to generate report based on user self description, resume and job description. 
