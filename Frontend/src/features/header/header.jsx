@@ -180,7 +180,7 @@ useEffect(() => {
             <span>Dashboard</span>
             <ChevronRightIcon />
           </Link>
-          <Link to="#" onClick={closeMenu}>
+          <Link to="/about" onClick={closeMenu}>
             <span>About</span>
             <ChevronRightIcon />
           </Link>

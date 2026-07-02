@@ -6,10 +6,10 @@ import amanImage from "../../assets/images/aman.jpeg";
 
 export default function About() {
     return (
-        <>
+        <div className="about has-fixed-header">
             <Header />
 
-            <main className="about-page">
+            <main className="about-page ">
 
                 <div className="about-container">
 
@@ -228,193 +228,193 @@ export default function About() {
     QUESTION 02
 ======================================= */}
 
-<section className="question-section feature-section">
+                    <section className="question-section feature-section">
 
-    <div className="question-label">
-        Question 02
-    </div>
-
-    <div className="question-grid">
-
-        <div className="question-title">
-
-            <h2>
-                Why choose
-                <br />
-                InterviewAI?
-            </h2>
-
-            <p className="feature-intro">
-                Designed to replicate real interview experiences instead of
-                making you memorize random questions.
-            </p>
-
-        </div>
-
-        <div className="feature-showcase">
-
-            {/* CARD 1 */}
-
-            <article className="feature-card">
-
-                <div className="feature-top">
-
-                    <div className="feature-icon">
-                        📄
-                    </div>
-
-                    <span className="feature-number">
-                        01
-                    </span>
-
-                </div>
-
-                <h3>
-                    Resume Based
-                </h3>
-
-                <p>
-                    AI understands your projects, skills and experience before
-                    generating interview questions.
-                </p>
-
-                <div className="mini-resume">
-
-                    <span>React</span>
-                    <span>Node.js</span>
-                    <span>MongoDB</span>
-
-                </div>
-
-            </article>
-
-            {/* CARD 2 */}
-
-            <article className="feature-card">
-
-                <div className="feature-top">
-
-                    <div className="feature-icon">
-                        💼
-                    </div>
-
-                    <span className="feature-number">
-                        02
-                    </span>
-
-                </div>
-
-                <h3>
-                    Job Matching
-                </h3>
-
-                <p>
-                    Every interview adapts according to the role and company
-                    you're preparing for.
-                </p>
-
-                <div className="mini-job">
-
-                    <div></div>
-                    <div></div>
-                    <div className="small"></div>
-
-                </div>
-
-            </article>
-
-            {/* CARD 3 */}
-
-            <article className="feature-card">
-
-                <div className="feature-top">
-
-                    <div className="feature-icon">
-                        🤖
-                    </div>
-
-                    <span className="feature-number">
-                        03
-                    </span>
-
-                </div>
-
-                <h3>
-                    AI Feedback
-                </h3>
-
-                <p>
-                    Get detailed analysis for communication, technical skills
-                    and confidence after every interview.
-                </p>
-
-                <div className="mini-report">
-
-                    <div>
-
-                        <span>Communication</span>
-
-                        <div className="bar">
-                            <div style={{ width: "88%" }}></div>
+                        <div className="question-label">
+                            Question 02
                         </div>
 
-                    </div>
+                        <div className="question-grid">
 
-                    <div>
+                            <div className="question-title">
 
-                        <span>Technical</span>
+                                <h2>
+                                    Why choose
+                                    <br />
+                                    InterviewAI?
+                                </h2>
 
-                        <div className="bar">
-                            <div style={{ width: "93%" }}></div>
+                                <p className="feature-intro">
+                                    Designed to replicate real interview experiences instead of
+                                    making you memorize random questions.
+                                </p>
+
+                            </div>
+
+                            <div className="feature-showcase">
+
+                                {/* CARD 1 */}
+
+                                <article className="feature-card">
+
+                                    <div className="feature-top">
+
+                                        <div className="feature-icon">
+                                            📄
+                                        </div>
+
+                                        <span className="feature-number">
+                                            01
+                                        </span>
+
+                                    </div>
+
+                                    <h3>
+                                        Resume Based
+                                    </h3>
+
+                                    <p>
+                                        AI understands your projects, skills and experience before
+                                        generating interview questions.
+                                    </p>
+
+                                    <div className="mini-resume">
+
+                                        <span>React</span>
+                                        <span>Node.js</span>
+                                        <span>MongoDB</span>
+
+                                    </div>
+
+                                </article>
+
+                                {/* CARD 2 */}
+
+                                <article className="feature-card">
+
+                                    <div className="feature-top">
+
+                                        <div className="feature-icon">
+                                            💼
+                                        </div>
+
+                                        <span className="feature-number">
+                                            02
+                                        </span>
+
+                                    </div>
+
+                                    <h3>
+                                        Job Matching
+                                    </h3>
+
+                                    <p>
+                                        Every interview adapts according to the role and company
+                                        you're preparing for.
+                                    </p>
+
+                                    <div className="mini-job">
+
+                                        <div></div>
+                                        <div></div>
+                                        <div className="small"></div>
+
+                                    </div>
+
+                                </article>
+
+                                {/* CARD 3 */}
+
+                                <article className="feature-card">
+
+                                    <div className="feature-top">
+
+                                        <div className="feature-icon">
+                                            🤖
+                                        </div>
+
+                                        <span className="feature-number">
+                                            03
+                                        </span>
+
+                                    </div>
+
+                                    <h3>
+                                        AI Feedback
+                                    </h3>
+
+                                    <p>
+                                        Get detailed analysis for communication, technical skills
+                                        and confidence after every interview.
+                                    </p>
+
+                                    <div className="mini-report">
+
+                                        <div>
+
+                                            <span>Communication</span>
+
+                                            <div className="bar">
+                                                <div style={{ width: "88%" }}></div>
+                                            </div>
+
+                                        </div>
+
+                                        <div>
+
+                                            <span>Technical</span>
+
+                                            <div className="bar">
+                                                <div style={{ width: "93%" }}></div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </article>
+
+                                {/* CARD 4 */}
+
+                                <article className="feature-card">
+
+                                    <div className="feature-top">
+
+                                        <div className="feature-icon">
+                                            📈
+                                        </div>
+
+                                        <span className="feature-number">
+                                            04
+                                        </span>
+
+                                    </div>
+
+                                    <h3>
+                                        Progress Tracking
+                                    </h3>
+
+                                    <p>
+                                        Save previous reports and monitor your interview
+                                        performance over time.
+                                    </p>
+
+                                    <div className="mini-chart">
+
+                                        <span></span>
+                                        <span></span>
+                                        <span></span>
+                                        <span></span>
+
+                                    </div>
+
+                                </article>
+
+                            </div>
+
                         </div>
 
-                    </div>
-
-                </div>
-
-            </article>
-
-            {/* CARD 4 */}
-
-            <article className="feature-card">
-
-                <div className="feature-top">
-
-                    <div className="feature-icon">
-                        📈
-                    </div>
-
-                    <span className="feature-number">
-                        04
-                    </span>
-
-                </div>
-
-                <h3>
-                    Progress Tracking
-                </h3>
-
-                <p>
-                    Save previous reports and monitor your interview
-                    performance over time.
-                </p>
-
-                <div className="mini-chart">
-
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-
-                </div>
-
-            </article>
-
-        </div>
-
-    </div>
-
-</section>
+                    </section>
 
                     {/* =======================================
                         QUESTION 03
@@ -523,113 +523,113 @@ export default function About() {
                     </section> */}
                     <section className="question-section workflow-section">
 
-    <div className="question-label">
-        Question 03
-    </div>
+                        <div className="question-label">
+                            Question 03
+                        </div>
 
-    <div className="question-grid">
+                        <div className="question-grid">
 
-        <div className="question-title">
+                            <div className="question-title">
 
-            <h2>
-                How does it
-                <br />
-                work?
-            </h2>
+                                <h2>
+                                    How does it
+                                    <br />
+                                    work?
+                                </h2>
 
-            <p className="workflow-intro">
-                InterviewAI simplifies interview preparation into four
-                intelligent steps—from understanding your profile to
-                delivering personalized feedback.
-            </p>
+                                <p className="workflow-intro">
+                                    InterviewAI simplifies interview preparation into four
+                                    intelligent steps—from understanding your profile to
+                                    delivering personalized feedback.
+                                </p>
 
-        </div>
+                            </div>
 
-        <div className="workflow-wrapper">
+                            <div className="workflow-wrapper">
 
-            <div className="workflow-line"></div>
+                                <div className="workflow-line"></div>
 
-            <div className="workflow-step">
+                                <div className="workflow-step">
 
-                <div className="step-number">
-                    01
-                </div>
+                                    <div className="step-number">
+                                        01
+                                    </div>
 
-                <div className="step-icon">
-                    📄
-                </div>
+                                    <div className="step-icon">
+                                        📄
+                                    </div>
 
-                <h3>Upload Resume</h3>
+                                    <h3>Upload Resume</h3>
 
-                <p>
-                    Upload your latest resume so InterviewAI can understand
-                    your skills, projects and experience.
-                </p>
+                                    <p>
+                                        Upload your latest resume so InterviewAI can understand
+                                        your skills, projects and experience.
+                                    </p>
 
-            </div>
+                                </div>
 
-            <div className="workflow-step">
+                                <div className="workflow-step">
 
-                <div className="step-number">
-                    02
-                </div>
+                                    <div className="step-number">
+                                        02
+                                    </div>
 
-                <div className="step-icon">
-                    💼
-                </div>
+                                    <div className="step-icon">
+                                        💼
+                                    </div>
 
-                <h3>Job Description</h3>
+                                    <h3>Job Description</h3>
 
-                <p>
-                    Paste the job description to personalize interview
-                    questions for your target role.
-                </p>
+                                    <p>
+                                        Paste the job description to personalize interview
+                                        questions for your target role.
+                                    </p>
 
-            </div>
+                                </div>
 
-            <div className="workflow-step">
+                                <div className="workflow-step">
 
-                <div className="step-number">
-                    03
-                </div>
+                                    <div className="step-number">
+                                        03
+                                    </div>
 
-                <div className="step-icon">
-                    🤖
-                </div>
+                                    <div className="step-icon">
+                                        🤖
+                                    </div>
 
-                <h3>AI Interview</h3>
+                                    <h3>AI Interview</h3>
 
-                <p>
-                    Answer intelligent technical and HR questions generated
-                    specifically for you.
-                </p>
+                                    <p>
+                                        Answer intelligent technical and HR questions generated
+                                        specifically for you.
+                                    </p>
 
-            </div>
+                                </div>
 
-            <div className="workflow-step">
+                                <div className="workflow-step">
 
-                <div className="step-number">
-                    04
-                </div>
+                                    <div className="step-number">
+                                        04
+                                    </div>
 
-                <div className="step-icon">
-                    📊
-                </div>
+                                    <div className="step-icon">
+                                        📊
+                                    </div>
 
-                <h3>Interview Report</h3>
+                                    <h3>Interview Report</h3>
 
-                <p>
-                    Receive a comprehensive AI report with scores,
-                    strengths and personalized improvements.
-                </p>
+                                    <p>
+                                        Receive a comprehensive AI report with scores,
+                                        strengths and personalized improvements.
+                                    </p>
 
-            </div>
+                                </div>
 
-        </div>
+                            </div>
 
-    </div>
+                        </div>
 
-</section>
+                    </section>
 
                     {/* =======================================
                         QUESTION 04
@@ -895,52 +895,52 @@ plans and guidance.
     QUESTION 05
 ======================================= */}
 
-<section className="question-section roadmap-section">
+                    <section className="question-section roadmap-section">
 
-    <div className="question-label">
-        Final Question
-    </div>
+                        <div className="question-label">
+                            Final Question
+                        </div>
 
-    <div className="question-grid">
+                        <div className="question-grid">
 
-        <div className="question-title">
+                            <div className="question-title">
 
-            <h2>
-                What's
-                <br />
-                next?
-            </h2>
+                                <h2>
+                                    What's
+                                    <br />
+                                    next?
+                                </h2>
 
-            <p className="roadmap-intro">
-                InterviewAI is continuously evolving. Here's what I'm currently
-                building to make interview preparation even more personalized
-                and effective.
-            </p>
+                                <p className="roadmap-intro">
+                                    InterviewAI is continuously evolving. Here's what I'm currently
+                                    building to make interview preparation even more personalized
+                                    and effective.
+                                </p>
 
-        </div>
+                            </div>
 
-        <div className="question-content">
+                            <div className="question-content">
 
-            <div className="roadmap-grid">
+                                <div className="roadmap-grid">
 
-                <article className="roadmap-card">
+                                    <article className="roadmap-card">
 
-                    <div className="roadmap-icon">🎙️</div>
+                                        <div className="roadmap-icon">🎙️</div>
 
-                    <h3>Voice Mock Interviews</h3>
+                                        <h3>Voice Mock Interviews</h3>
 
-                    <p>
-                        Practice spoken interviews with AI for a realistic
-                        interview experience.
-                    </p>
+                                        <p>
+                                            Practice spoken interviews with AI for a realistic
+                                            interview experience.
+                                        </p>
 
-                    <span className="status coming">
-                        Coming Soon
-                    </span>
+                                        <span className="status coming">
+                                            Coming Soon
+                                        </span>
 
-                </article>
+                                    </article>
 
-                {/* <article className="roadmap-card">
+                                    {/* <article className="roadmap-card">
 
                     <div className="roadmap-icon">📄</div>
 
@@ -957,102 +957,102 @@ plans and guidance.
 
                 </article> */}
 
-                <article className="roadmap-card">
+                                    <article className="roadmap-card">
 
-    <div>
+                                        <div>
 
-        <div className="roadmap-icon">📄</div>
+                                            <div className="roadmap-icon">📄</div>
 
-        <h3>ATS Resume Checker</h3>
+                                            <h3>ATS Resume Checker</h3>
 
-        <p>
-            Analyze resumes using recruiter-style ATS scoring and
-            improvement suggestions.
-        </p>
+                                            <p>
+                                                Analyze resumes using recruiter-style ATS scoring and
+                                                improvement suggestions.
+                                            </p>
 
-    </div>
+                                        </div>
 
-    <span className="status prog">
-        In Progress
-    </span>
+                                        <span className="status prog">
+                                            In Progress
+                                        </span>
 
-</article>
+                                    </article>
 
-                <article className="roadmap-card">
+                                    <article className="roadmap-card">
 
-                    <div className="roadmap-icon">🏢</div>
+                                        <div className="roadmap-icon">🏢</div>
 
-                    <h3>Company Specific Interviews</h3>
+                                        <h3>Company Specific Interviews</h3>
 
-                    <p>
-                        Generate interviews for Google, Amazon, Microsoft, TCS
-                        and many more companies.
-                    </p>
+                                        <p>
+                                            Generate interviews for Google, Amazon, Microsoft, TCS
+                                            and many more companies.
+                                        </p>
 
-                    <span className="status coming">
-                        Coming Soon
-                    </span>
+                                        <span className="status coming">
+                                            Coming Soon
+                                        </span>
 
-                </article>
+                                    </article>
 
-                <article className="roadmap-card">
+                                    <article className="roadmap-card">
 
-                    <div className="roadmap-icon">📊</div>
+                                        <div className="roadmap-icon">📊</div>
 
-                    <h3>Performance Analytics</h3>
+                                        <h3>Performance Analytics</h3>
 
-                    <p>
-                        Visualize your growth across multiple interview sessions
-                        with detailed insights.
-                    </p>
+                                        <p>
+                                            Visualize your growth across multiple interview sessions
+                                            with detailed insights.
+                                        </p>
 
-                    <span className="status planned">
-                        Planned
-                    </span>
+                                        <span className="status planned">
+                                            Planned
+                                        </span>
 
-                </article>
+                                    </article>
 
-                <article className="roadmap-card">
+                                    <article className="roadmap-card">
 
-                    <div className="roadmap-icon">🤖</div>
+                                        <div className="roadmap-icon">🤖</div>
 
-                    <h3>AI Career Coach</h3>
+                                        <h3>AI Career Coach</h3>
 
-                    <p>
-                        Receive personalized interview strategies, career advice
-                        and preparation plans.
-                    </p>
+                                        <p>
+                                            Receive personalized interview strategies, career advice
+                                            and preparation plans.
+                                        </p>
 
-                    <span className="status research">
-                        Research
-                    </span>
+                                        <span className="status research">
+                                            Research
+                                        </span>
 
-                </article>
+                                    </article>
 
-                <article className="roadmap-card">
+                                    <article className="roadmap-card">
 
-                    <div className="roadmap-icon">🎯</div>
+                                        <div className="roadmap-icon">🎯</div>
 
-                    <h3>Learning Paths</h3>
+                                        <h3>Learning Paths</h3>
 
-                    <p>
-                        Practice topics based on your weaknesses and previous
-                        interview reports.
-                    </p>
+                                        <p>
+                                            Practice topics based on your weaknesses and previous
+                                            interview reports.
+                                        </p>
 
-                    <span className="status coming">
-                        Coming Soon
-                    </span>
+                                        <span className="status coming">
+                                            Coming Soon
+                                        </span>
 
-                </article>
+                                    </article>
 
-            </div>
+                                </div>
 
-        </div>
+                            </div>
 
-    </div>
+                        </div>
 
-</section>
+                    </section>
 
                     {/* =======================================
                         CTA
@@ -1094,7 +1094,7 @@ plans and guidance.
                 </nav>
             </footer>
 
-        </>
+        </div>
 
     );
 

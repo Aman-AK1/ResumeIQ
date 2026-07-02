@@ -138,7 +138,7 @@ const Pricing = () => {
   };
 
   return (
-    <div className="dashboard pricing-page">
+    <div className="dashboard pricing-page has-fixed-header">
       <Header/>
 
       <main className="pricing-main">

@@ -73,9 +73,38 @@ $font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   display: flex;
   flex-direction: column;
   padding: 40px 64px;
-
+  position: relative;
+   .mobile-auth-image {
+    display: none;
+  }
   @media (max-width: 900px) {
     padding: 32px 24px;
+    .mobile-auth-image {
+      display: flex;
+      justify-content: center;
+      margin: 1.75rem 0 2rem;
+
+      img {
+        width: 160px;
+        max-width: 100%;
+        height: auto;
+      }
+    }
+    .auth-panel--visual {
+    display: none;
+  }
+
+  .auth-form-wrap {
+    justify-content: flex-start;
+  }
+
+  .form-container {
+    max-width: 100%;
+  }
+
+  .auth-topbar {
+    margin-bottom: 0;
+  }
   }
 }
 

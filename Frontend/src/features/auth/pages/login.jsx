@@ -33,6 +33,10 @@ const Login = () => {
                             <div className="logo-icon">R</div>
                             <span>ResumeIQ</span>
                         </div>
+
+                        <div className="mobile-auth-image">
+                            <img src={authImage} alt="Resume Analysis" />
+                        </div>
                     </div>
 
                     <div className="auth-form-wrap">
@@ -76,7 +80,7 @@ const Login = () => {
                                         checked={rememberMe}
                                         onChange={(e) => setRememberMe(e.target.checked)}
                                     />
-                                    Remember me for 30 days
+                                    Trust this device
                                 </label>
 
                                 <button className="button primary-button" type="submit">
@@ -97,10 +101,10 @@ const Login = () => {
                 <div className="auth-panel auth-panel--visual">
                     <div className="auth-illustration">
                         <img
-    src={authImage}
-    alt="Resume Analysis"
-    className="hero-image"
-/>
+                            src={authImage}
+                            alt="Resume Analysis"
+                            className="hero-image"
+                        />
                     </div>
 
                     <p className="auth-caption">Accelerate Your Path</p>

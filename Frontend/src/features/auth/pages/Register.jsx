@@ -49,6 +49,10 @@ const Register = () => {
                             <div className="logo-icon">R</div>
                             <span>ResumeIQ</span>
                         </div>
+
+                        <div className="mobile-auth-image">
+    <img src={RegisterImage} alt="Resume Analysis" />
+</div>
                     </div>
 
                     <div className="auth-form-wrap">
@@ -133,10 +137,10 @@ const Register = () => {
                 <div className="auth-panel auth-panel--visual">
                     <div className="auth-illustration">
                         <img
-    src={RegisterImage}
-    alt="Resume Analysis"
-    className="hero-image"
-/>
+                            src={RegisterImage}
+                            alt="Resume Analysis"
+                            className="hero-image"
+                        />
                     </div>
 
                     <div className="auth-callout">

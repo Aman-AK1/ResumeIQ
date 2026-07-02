@@ -128,7 +128,7 @@ const Interview = () => {
   }
 
   return (
-    <div className="interview">
+    <div className="interview has-fixed-header">
       <Header />
 
       <div className="main-layout">

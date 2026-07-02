@@ -187,7 +187,7 @@ useEffect(() => {
 // }
 
     return (
-        <div className="dashboard">
+        <div className="dashboard has-fixed-header">
 
             {/* <header className="topbar">
                 <div className="logo">

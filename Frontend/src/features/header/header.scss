@@ -35,8 +35,12 @@ $font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
 
 body {
-  padding-top: 65px; // matches .app-header offsetHeight
+  // padding-top: 65px; // matches .app-header offsetHeight
   background: #f4f5f9;
+}
+
+.has-fixed-header {
+  padding-top: 65px;
 }
 
 .app-header__inner {
