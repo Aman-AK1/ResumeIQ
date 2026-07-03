@@ -261,29 +261,32 @@ const Header = () => {
 
       {/* LOGOUT CONFIRM MODAL */}
       {showLogoutConfirm && (
-        <div className="logout-modal-overlay" onClick={() => setShowLogoutConfirm(false)}>
-          <div className="logout-modal" onClick={(e) => e.stopPropagation()}>
-            <h3>Log out?</h3>
-            <p>Are you sure you want to log out of ResumeIQ?</p>
-            <div className="logout-modal__actions">
-              <button
-                className="logout-modal__cancel"
-                onClick={() => setShowLogoutConfirm(false)}
-                disabled={loggingOut}
-              >
-                Cancel
-              </button>
-              <button
-                className="logout-modal__confirm"
-                onClick={confirmLogout}
-                disabled={loggingOut}
-              >
-                {loggingOut ? "Logging out..." : "Logout"}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+  <div className="logout-modal-overlay" onClick={() => setShowLogoutConfirm(false)}>
+    <div className="logout-modal" onClick={(e) => e.stopPropagation()}>
+      <div className="logout-modal__icon">
+        <LogOutIcon />
+      </div>
+      <h3>Log out?</h3>
+      <p>Are you sure you want to log out of ResumeIQ?</p>
+      <div className="logout-modal__actions">
+        <button
+          className="logout-modal__cancel"
+          onClick={() => setShowLogoutConfirm(false)}
+          disabled={loggingOut}
+        >
+          Cancel
+        </button>
+        <button
+          className="logout-modal__confirm"
+          onClick={confirmLogout}
+          disabled={loggingOut}
+        >
+          {loggingOut ? "Logging out..." : "Logout"}
+        </button>
+      </div>
+    </div>
+  </div>
+)}
     </header>
   );
 };

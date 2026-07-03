@@ -23,11 +23,11 @@ export async function login ({email, password}){
         const response = await api.post('/api/auth/login',{
             email, password
         })
-        alert("Login success: " + JSON.stringify(response.data))
+        
         return response.data
 
     } catch (err) {
-        alert("Login error: " + (err.response?.status || "no response") + " - " + (err.response?.data?.message || err.message))
+        
         console.log(err)
     }
 }
@@ -45,10 +45,10 @@ export async function logout(){
 export async function getMe(){
     try{
        const response = await api.get("/api/auth/get-me")
-       alert("getMe success: " + JSON.stringify(response.data))
+       
        return response.data
     }catch(err){
-        alert("getMe error: " + (err.response?.status || "no response") + " - " + (err.response?.data?.message || err.message))
+        
         console.log(err)
     }
 }
