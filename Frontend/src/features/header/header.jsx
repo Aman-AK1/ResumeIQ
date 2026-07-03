@@ -260,7 +260,7 @@ const Header = () => {
       </aside>
 
       {/* LOGOUT CONFIRM MODAL */}
-      {showLogoutConfirm && (
+   {showLogoutConfirm && (
   <div className="logout-modal-overlay" onClick={() => setShowLogoutConfirm(false)}>
     <div className="logout-modal" onClick={(e) => e.stopPropagation()}>
       <div className="logout-modal__icon">
