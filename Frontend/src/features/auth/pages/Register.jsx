@@ -32,7 +32,7 @@ const Register = () => {
 
         setFormError("");
         await handleRegister({ username, email, password })
-        navigate("/")
+        window.location.href = '/'
     }
 
     if (loading) {

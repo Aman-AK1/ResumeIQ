@@ -14,10 +14,10 @@ const Login = () => {
     const [rememberMe, setRememberMe] = useState(false)
 
     const handleSubmit = async (e) => {
-        e.preventDefault()
-        await handleLogin({ email, password, rememberMe })
-        navigate('/')
-    }
+    e.preventDefault()
+    await handleLogin({ email, password, rememberMe })
+    window.location.href = '/'
+}
 
     if (loading) {
         return (<main className="auth-page"><h1>Loading...</h1></main>)

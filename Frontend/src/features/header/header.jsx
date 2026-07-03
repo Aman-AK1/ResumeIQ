@@ -137,18 +137,16 @@ const Header = () => {
     setShowLogoutConfirm(true);
   };
 
-  const confirmLogout = async () => {
+ const confirmLogout = async () => {
     setLoggingOut(true);
     try {
       await axios.get("/api/auth/logout", { withCredentials: true });
     } catch (err) {
       console.error("Logout failed:", err.message);
     } finally {
-      setLoggingOut(false);
-      setShowLogoutConfirm(false);
-      navigate("/login");
+      window.location.href = "/login";
     }
-  };
+};
 
   return (
     <header className={`app-header ${hidden ? "is-hidden" : ""}`}>
