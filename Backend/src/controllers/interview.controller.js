@@ -106,35 +106,43 @@ const deleteInterviewReport = async (req, res) => {
 /**
  * @description controller to generate resume PDF based on user self description, resume and job description.
  */
-async function generateResumePdfController(req, res){
-    const {interviewReportId} = req.params
+async function generateResumePdfController(req, res) {
+    const { interviewReportId } = req.params;
 
-    const interviewReport = await interviewReportModel.findById(interviewReportId)
+    try {
+        const interviewReport = await interviewReportModel.findById(interviewReportId);
 
-    if(!interviewReport){
-        return res.status(404).json({
-            message: "Interview report not found."
-        })
+        if (!interviewReport) {
+            return res.status(404).json({
+                message: "Interview report not found."
+            });
+        }
+
+        const { resume, selfDescription, jobDescription } = interviewReport;
+
+        const resumeData = await generateResumeData({
+            resume,
+            selfDescription,
+            jobDescription
+        });
+
+        const html = modernResumeTemplate(resumeData);
+
+        const pdf = await generatePdfFromHtml(html);
+
+        res.set({
+            "Content-Type": "application/pdf",
+            "Content-Disposition": `attachment; filename=resume_${interviewReportId}.pdf`
+        });
+
+        res.send(pdf);
+
+    } catch (err) {
+        console.error("Resume PDF generation failed:", err.message);
+        res.status(500).json({
+            message: "Failed to generate resume PDF. Please try again."
+        });
     }
-    const { resume, selfDescription, jobDescription } = interviewReport;
-
-    const resumeData = await generateResumeData({
-    resume,
-    selfDescription,
-    jobDescription
-});
-
-
-const html = modernResumeTemplate(resumeData);
-
-const pdf = await generatePdfFromHtml(html);
-
-res.set({
-    "Content-Type": "application/pdf",
-    "Content-Disposition": `attachment; filename=resume_${interviewReportId}.pdf`
-});
-
-res.send(pdf);
 }
 
 
