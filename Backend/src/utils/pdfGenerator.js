@@ -31,10 +31,10 @@ const puppeteer = require("puppeteer-core");
 
 async function generatePdfFromHtml(html) {
     const browser = await puppeteer.launch({
-        args: chromium.args,
-        executablePath: await chromium.executablePath(),
-        headless: chromium.headless,
-    });
+    args: chromium.args,
+    executablePath: await chromium.executablePath(),
+    headless: chromium.headless,
+});
 
     try {
         const page = await browser.newPage();
@@ -58,6 +58,7 @@ async function generatePdfFromHtml(html) {
         await browser.close();
     }
 }
+
 
 
 module.exports = {
