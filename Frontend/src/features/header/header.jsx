@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router";
+import { createPortal } from "react-dom";
 import axios from "axios"; // adjust import path if you have a configured axios instance
 import "./header.scss";
 
@@ -260,7 +261,8 @@ const Header = () => {
       </aside>
 
       {/* LOGOUT CONFIRM MODAL */}
-   {showLogoutConfirm && (
+   {/* LOGOUT CONFIRM MODAL — rendered via portal to escape header's backdrop-filter containing block */}
+{showLogoutConfirm && createPortal(
   <div className="logout-modal-overlay" onClick={() => setShowLogoutConfirm(false)}>
     <div className="logout-modal" onClick={(e) => e.stopPropagation()}>
       <div className="logout-modal__icon">
@@ -285,7 +287,8 @@ const Header = () => {
         </button>
       </div>
     </div>
-  </div>
+  </div>,
+  document.body
 )}
     </header>
   );
